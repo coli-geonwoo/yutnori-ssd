@@ -1,4 +1,4 @@
-package org.example.yutnori;
+package org.example.domain;
 
 public enum YutResult {
 
