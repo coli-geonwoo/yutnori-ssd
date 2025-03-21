@@ -1,9 +1,22 @@
 plugins {
     id 'java'
+    id 'jacoco'
 }
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
 
 repositories {
     mavenCentral()
@@ -12,8 +25,43 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    //Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
 }
 
 test {
     useJUnitPlatform()
+}
+
+jacoco {
+    toolVersion = '0.8.9'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+        html.required.set(false)
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "org/example/**/dto/**"
+            ])
+        }))
+    }
+
+    onlyIf {
+        return System.getenv('TEST_REPORT') == 'true'
+    }
 }
