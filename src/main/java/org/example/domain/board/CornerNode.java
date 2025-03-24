@@ -1,6 +1,7 @@
 package org.example.domain.board;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CornerNode implements Node {
 
@@ -48,5 +49,19 @@ public class CornerNode implements Node {
 
     public void setStandNext(Node standNext) {
         this.standNext = standNext;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CornerNode that = (CornerNode) o;
+        return Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getName());
     }
 }

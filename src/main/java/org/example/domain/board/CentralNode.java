@@ -1,6 +1,7 @@
 package org.example.domain.board;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CentralNode implements Node {
 
@@ -21,9 +22,9 @@ public class CentralNode implements Node {
         if (start.isSame(this)) {
             return next;
         }
-        for (Node next : next) {
-            if(next.isSameLine(this)){
-                return List.of(next);
+        for (Node nextNode : next) {
+            if(nextNode.isSameLine(start)){
+                return List.of(nextNode);
             }
         }
         throw new RuntimeException("윷놀이 판이 잘못 형성되었습니다.");
@@ -50,5 +51,19 @@ public class CentralNode implements Node {
 
     public void addBefore(Node node) {
         before.add(node);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CentralNode that = (CentralNode) o;
+        return Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getName());
     }
 }

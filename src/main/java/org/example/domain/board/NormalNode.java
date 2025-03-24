@@ -1,6 +1,7 @@
 package org.example.domain.board;
 
 import java.util.List;
+import java.util.Objects;
 
 public class NormalNode implements Node {
 
@@ -38,5 +39,19 @@ public class NormalNode implements Node {
 
     public void setBefore(Node before) {
         this.before = before;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        NormalNode that = (NormalNode) o;
+        return Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getName());
     }
 }

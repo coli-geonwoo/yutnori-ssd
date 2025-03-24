@@ -6,43 +6,58 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SquareBoardCreator {
-    private static final CornerNode s0 = new CornerNode(List.of("S0", "AO", "D5", "F5"), "S0");
-    private static final CornerNode s1 = new CornerNode(List.of("S1", "EO", "BO", "A5"), "S1");
-    private static final CornerNode s2 = new CornerNode(List.of("S2", "B5", "C0", "F0"), "S2");
-    private static final CornerNode s3 = new CornerNode(List.of("S3", "C5", "D0", "E5"), "S3");
-    private static final CentralNode s4 = new CentralNode(List.of("S4"), "S4", new ArrayList<>(), new ArrayList<>());
 
-    private static final NormalNode a1 = new NormalNode("A1");
-    private static final NormalNode a2 = new NormalNode("A2");
-    private static final NormalNode a3 = new NormalNode("A3");
-    private static final NormalNode a4 = new NormalNode("A4");
-
-    private static final NormalNode b1 = new NormalNode("B1");
-    private static final NormalNode b2 = new NormalNode("B2");
-    private static final NormalNode b3 = new NormalNode("B3");
-    private static final NormalNode b4 = new NormalNode("B4");
-
-    private static final NormalNode c1 = new NormalNode("C1");
-    private static final NormalNode c2 = new NormalNode("C2");
-    private static final NormalNode c3 = new NormalNode("C3");
-    private static final NormalNode c4 = new NormalNode("C4");
-
-    private static final NormalNode d1 = new NormalNode("D1");
-    private static final NormalNode d2 = new NormalNode("D2");
-    private static final NormalNode d3 = new NormalNode("D3");
-    private static final NormalNode d4 = new NormalNode("D4");
-
-    private static final NormalNode e1 = new NormalNode("E1");
-    private static final NormalNode e2 = new NormalNode("E2");
-    private static final NormalNode e3 = new NormalNode("E3");
-    private static final NormalNode e4 = new NormalNode("E4");
-
-    private static final NormalNode f1 = new NormalNode("F1");
-    private static final NormalNode f2 = new NormalNode("F2");
-    private static final NormalNode f3 = new NormalNode("F3");
-    private static final NormalNode f4 = new NormalNode("F4");
-
+    /*
+    S2  -  B4  -  B3  -  B2  -  B1  -  S1
+     |  F1                         E1  |
+    C1                                 A4
+     |       F2               E2       |
+    C2                                 A3
+     |                S4               |
+    C3                                 A2
+     |       E3               F3       |
+    C4                                 A1
+     |  E4                         F4  |
+    S3  -  D1  -  D2  -  D3  -  D4  -  S0
+     */
     public SquareBoard initialize() {
+
+        CornerNode s0 = new CornerNode(List.of("S0", "AO", "D5", "F5"), "S0");
+        CornerNode s1 = new CornerNode(List.of("S1", "EO", "BO", "A5"), "S1");
+        CornerNode s2 = new CornerNode(List.of("S2", "B5", "C0", "F0"), "S2");
+        CornerNode s3 = new CornerNode(List.of("S3", "C5", "D0", "E5"), "S3");
+        CentralNode s4 = new CentralNode(List.of("S4"), "S4", new ArrayList<>(), new ArrayList<>());
+
+        NormalNode a1 = new NormalNode("A1");
+        NormalNode a2 = new NormalNode("A2");
+        NormalNode a3 = new NormalNode("A3");
+        NormalNode a4 = new NormalNode("A4");
+
+        NormalNode b1 = new NormalNode("B1");
+        NormalNode b2 = new NormalNode("B2");
+        NormalNode b3 = new NormalNode("B3");
+        NormalNode b4 = new NormalNode("B4");
+
+        NormalNode c1 = new NormalNode("C1");
+        NormalNode c2 = new NormalNode("C2");
+        NormalNode c3 = new NormalNode("C3");
+        NormalNode c4 = new NormalNode("C4");
+
+        NormalNode d1 = new NormalNode("D1");
+        NormalNode d2 = new NormalNode("D2");
+        NormalNode d3 = new NormalNode("D3");
+        NormalNode d4 = new NormalNode("D4");
+
+        NormalNode e1 = new NormalNode("E1");
+        NormalNode e2 = new NormalNode("E2");
+        NormalNode e3 = new NormalNode("E3");
+        NormalNode e4 = new NormalNode("E4");
+
+        NormalNode f1 = new NormalNode("F1");
+        NormalNode f2 = new NormalNode("F2");
+        NormalNode f3 = new NormalNode("F3");
+        NormalNode f4 = new NormalNode("F4");
+
         linkOneSide(s0, a1, a2, a3, a4, s1);
         linkOneSide(s1, b1, b2, b3, b4, s2);
         linkOneSide(s2, c1, c2, c3, c4, s3);

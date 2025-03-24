@@ -13,7 +13,7 @@ public interface Node {
     String getName();
 
     default boolean isSame(Node node) {
-        return this.getName().equals(node.getName());
+        return this.equals(node);
     }
 
     default boolean isSameLine(Node node) {

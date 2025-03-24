@@ -3,6 +3,7 @@ package org.example.domain.board;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.example.domain.YutResult;
 
 public class SquareBoard {
 
@@ -12,9 +13,13 @@ public class SquareBoard {
         this.boards = boards;
     }
 
-    public List<Node> next(Node startNode, int count) {
+    public List<Node> next(String startNodeName, YutResult result) {
+        int count = result.getStep();
+
         List<Node> nextNodes = new ArrayList<>();
+        Node startNode = boards.get(startNodeName);
         nextNodes.add(startNode);
+
         while(count > 0) {
             List<Node> tempNodes = new ArrayList<>();
             for (Node node : nextNodes) {
@@ -28,5 +33,9 @@ public class SquareBoard {
 
     public List<Node> before(Node node) {
         return node.before();
+    }
+
+    public Node getNode(String nodeName) {
+        return boards.get(nodeName);
     }
 }
