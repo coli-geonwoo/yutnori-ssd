@@ -250,11 +250,11 @@ class SquareBoardTest {
     C2                                     A3
      |                S4                   |
     C3                                     A2
-     |       E3              *            |
+     |       E3              F3            |
     C4                                     A1
      |  E4                          F4     |
-    S3  -  D1  -  D2  -  D3  -  D4  - S5   S0
-                                      |
+    S3  -  D1  -  D2  -  D3  -  D4  - S5   *
+                                      |  /
                                       $
    */
     @DisplayName("S0 -> END : 시작노드에서 백도가 나오면 도착으로 취급한다")
