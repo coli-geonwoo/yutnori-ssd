@@ -112,7 +112,7 @@ class SquareBoardTest {
     /*
     * : 출발지
     $ : 도착지
-    S2  -  *  -  B3  -  B2  -  B1  -  *
+    S2  -  $  -  B3  -  B2  -  B1  -  *
      |  F1                         E1  |
     C1                                 A4
      |       F2              E2        |
@@ -233,6 +233,37 @@ class SquareBoardTest {
         SquareBoard board = creator.initialize();
 
         List<Node> nextNode = board.next("F3", YutResult.MO);
+
+        assertAll(
+                () -> assertThat(nextNode).hasSize(1),
+                () -> assertThat(nextNode.get(0).isEnd()).isTrue()
+        );
+    }
+
+    /*
+    * : 출발지
+    $ : 도착지
+    S2  -  *  -  B3  -  B2  -  B1  -       S1
+     |  F1                         E1      |
+    C1                                     A4
+     |       F2              E2            |
+    C2                                     A3
+     |                S4                   |
+    C3                                     A2
+     |       E3              *            |
+    C4                                     A1
+     |  E4                          F4     |
+    S3  -  D1  -  D2  -  D3  -  D4  - S5   S0
+                                      |
+                                      $
+   */
+    @DisplayName("S0 -> END : 시작노드에서 백도가 나오면 도착으로 취급한다")
+    @Test
+    void return_end_node_when_backdo_from_start() {
+        SquareBoardCreator creator = new SquareBoardCreator();
+        SquareBoard board = creator.initialize();
+
+        List<Node> nextNode = board.next("S0", YutResult.BACK_DO);
 
         assertAll(
                 () -> assertThat(nextNode).hasSize(1),

@@ -14,10 +14,13 @@ public class SquareBoard {
     }
 
     public List<Node> next(String startNodeName, YutResult result) {
-        int count = result.getStep();
-
-        List<Node> nextNodes = new ArrayList<>();
         Node startNode = boards.get(startNodeName);
+        if(result == YutResult.BACK_DO){
+            return startNode.before();
+        }
+
+        int count = result.getStep();
+        List<Node> nextNodes = new ArrayList<>();
         nextNodes.add(startNode);
 
         while(count > 0) {
@@ -31,13 +34,5 @@ public class SquareBoard {
         return nextNodes.stream()
                 .distinct()
                 .toList();
-    }
-
-    public List<Node> before(Node node) {
-        return node.before();
-    }
-
-    public Node getNode(String nodeName) {
-        return boards.get(nodeName);
     }
 }

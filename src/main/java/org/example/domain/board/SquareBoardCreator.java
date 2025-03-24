@@ -71,7 +71,7 @@ public class SquareBoardCreator {
         linkOneSide(s3, d1, d2, d3, d4, s5);
         linkCentral(s1, e1, e2, s4, e3, e4, s3);
         linkCentral(s2, f1, f2, s4, f3, f4, s5);
-        linkEnd(s5, endNode);
+        linkEnd(s0, s5, endNode);
 
         List<Node> nodes = List.of(
                 a1, a2, a3, a4,
@@ -92,7 +92,8 @@ public class SquareBoardCreator {
         return new SquareBoard(map);
     }
 
-    private void linkEnd(CornerNode cornerNode, EndNode end) {
+    private void linkEnd(CornerNode startNode, CornerNode cornerNode, EndNode end) {
+        startNode.setBefore(end);
         cornerNode.setForwardNext(end);
         cornerNode.setStandNext(end);
     }
