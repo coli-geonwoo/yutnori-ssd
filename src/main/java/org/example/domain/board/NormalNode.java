@@ -5,18 +5,11 @@ import java.util.List;
 public class NormalNode implements Node {
 
     private final String name;
-    private final Node before;
-    private final Node next;
+    private Node before;
+    private Node next;
 
-    public NormalNode(String nodeName, Node before, Node next) {
-        this.name = nodeName;
-        this.before = before;
-        this.next = next;
-    }
-
-    @Override
-    public boolean isSame(Node node) {
-        return name.equals(node.getName());
+    public NormalNode(String name) {
+        this.name = name;
     }
 
     @Override
@@ -30,7 +23,20 @@ public class NormalNode implements Node {
     }
 
     @Override
+    public List<String> getAllNodeNames() {
+        return List.of(name);
+    }
+
+    @Override
     public String getName() {
         return name;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
+
+    public void setBefore(Node before) {
+        this.before = before;
     }
 }

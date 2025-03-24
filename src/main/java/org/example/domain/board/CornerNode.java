@@ -4,21 +4,15 @@ import java.util.List;
 
 public class CornerNode implements Node {
 
+    private final List<String> allNodeNames;
     private final String name;
-    private final Node before;
-    private final Node forwardNext;
-    private final Node standNext;
+    private Node before;
+    private Node forwardNext;
+    private Node standNext;
 
-    public CornerNode(String name, Node before, Node forwardNext, Node standNext) {
+    public CornerNode(List<String> allNodeNames, String name) {
         this.name = name;
-        this.before = before;
-        this.forwardNext = forwardNext;
-        this.standNext = standNext;
-    }
-
-    @Override
-    public boolean isSame(Node node) {
-        return name.equals(node.getName());
+        this.allNodeNames = allNodeNames;
     }
 
     @Override
@@ -35,8 +29,24 @@ public class CornerNode implements Node {
     }
 
     @Override
+    public List<String> getAllNodeNames() {
+        return allNodeNames;
+    }
+
+    @Override
     public String getName() {
         return name;
     }
 
+    public void setBefore(Node before) {
+        this.before = before;
+    }
+
+    public void setForwardNext(Node forwardNext) {
+        this.forwardNext = forwardNext;
+    }
+
+    public void setStandNext(Node standNext) {
+        this.standNext = standNext;
+    }
 }
