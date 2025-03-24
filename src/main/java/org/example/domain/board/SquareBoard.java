@@ -28,7 +28,9 @@ public class SquareBoard {
             nextNodes = tempNodes;
             count--;
         }
-        return nextNodes;
+        return nextNodes.stream()
+                .distinct()
+                .toList();
     }
 
     public List<Node> before(Node node) {
