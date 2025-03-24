@@ -16,7 +16,7 @@ public class CornerNode implements Node {
     }
 
     @Override
-    public List<Node> next(int step, Node start) {
+    public List<Node> next(Node start) {
         if(start.isSame(this)) {
             return List.of(forwardNext, standNext);
         }

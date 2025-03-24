@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Node {
 
-    List<Node> next(int step, Node start);
+    List<Node> next(Node start);
 
     List<Node> before();
 

@@ -13,7 +13,7 @@ public class NormalNode implements Node {
     }
 
     @Override
-    public List<Node> next(int step, Node start) {
+    public List<Node> next(Node start) {
         return List.of(next);
     }
 
