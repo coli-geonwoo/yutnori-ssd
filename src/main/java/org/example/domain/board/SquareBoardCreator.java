@@ -8,17 +8,19 @@ import java.util.stream.Collectors;
 public class SquareBoardCreator {
 
     /*
-    S2  -  B4  -  B3  -  B2  -  B1  -  S1
-     |  F1                         E1  |
-    C1                                 A4
-     |       F2               E2       |
-    C2                                 A3
-     |                S4               |
-    C3                                 A2
-     |       E3               F3       |
-    C4                                 A1
-     |  E4                         F4  |
-    S3  -  D1  -  D2  -  D3  -  D4  -  S0
+    S2  -  B4  -  B3  -  B2  -  B1  -    S1
+     |  F1                         E1    |
+    C1                                   A4
+     |       F2               E2         |
+    C2                                   A3
+     |                S4                 |
+    C3                                   A2
+     |       E3               F3         |
+    C4                                   A1
+     |  E4                         F4    |
+    S3  -  D1  -  D2  -  D3  -  D4  - S5 S0
+                                       |
+                                      END
      */
     public SquareBoard initialize() {
 
@@ -26,7 +28,11 @@ public class SquareBoardCreator {
         CornerNode s1 = new CornerNode(List.of("S1", "EO", "BO", "A5"), "S1");
         CornerNode s2 = new CornerNode(List.of("S2", "B5", "C0", "F0"), "S2");
         CornerNode s3 = new CornerNode(List.of("S3", "C5", "D0", "E5"), "S3");
+        CornerNode s5 = new CornerNode(List.of("S5"), "S5");
+        EndNode endNode = new EndNode("end");
+
         CentralNode s4 = new CentralNode(List.of("S4"), "S4", new ArrayList<>(), new ArrayList<>());
+
 
         NormalNode a1 = new NormalNode("A1");
         NormalNode a2 = new NormalNode("A2");
@@ -62,9 +68,10 @@ public class SquareBoardCreator {
         linkOneSide(s1, b1, b2, b3, b4, s2);
         linkOneSide(s2, c1, c2, c3, c4, s3);
         linkOneSide(s2, c1, c2, c3, c4, s3);
-        linkOneSide(s3, d1, d2, d3, d4, s0);
+        linkOneSide(s3, d1, d2, d3, d4, s5);
         linkCentral(s1, e1, e2, s4, e3, e4, s3);
-        linkCentral(s2, f1, f2, s4, f3, f4, s0);
+        linkCentral(s2, f1, f2, s4, f3, f4, s5);
+        linkEnd(s5, endNode);
 
         List<Node> nodes = List.of(
                 a1, a2, a3, a4,
@@ -74,7 +81,7 @@ public class SquareBoardCreator {
                 e1, e2, e3, e4,
                 f1, f2, f3, f4,
                 s0, s1, s2, s3,
-                s4
+                s4, s5
         );
         return createBoard(nodes);
     }
@@ -83,6 +90,11 @@ public class SquareBoardCreator {
         Map<String, Node> map = nodes.stream()
                 .collect(Collectors.toMap(Node::getName, node -> node));
         return new SquareBoard(map);
+    }
+
+    private void linkEnd(CornerNode cornerNode, EndNode end) {
+        cornerNode.setForwardNext(end);
+        cornerNode.setStandNext(end);
     }
 
     private void linkOneSide(

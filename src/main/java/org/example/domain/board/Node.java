@@ -12,6 +12,10 @@ public interface Node {
 
     String getName();
 
+    default boolean isEnd() {
+        return false;
+    }
+
     default boolean isSame(Node node) {
         return this.equals(node);
     }
