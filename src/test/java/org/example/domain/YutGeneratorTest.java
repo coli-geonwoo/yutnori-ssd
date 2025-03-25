@@ -2,6 +2,10 @@ package org.example.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.example.domain.yut.RandomYutGenerateStrategy;
+import org.example.domain.yut.YutGenerateOptions;
+import org.example.domain.yut.YutGenerator;
+import org.example.domain.yut.YutResult;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;

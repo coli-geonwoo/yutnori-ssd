@@ -1,8 +1,8 @@
 package org.example.service;
 
-import org.example.domain.YutGenerateOptions;
-import org.example.domain.YutGenerator;
-import org.example.domain.YutResult;
+import org.example.domain.yut.YutGenerateOptions;
+import org.example.domain.yut.YutGenerator;
+import org.example.domain.yut.YutResult;
 
 public class YutGameService {
 

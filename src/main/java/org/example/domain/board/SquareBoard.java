@@ -3,7 +3,7 @@ package org.example.domain.board;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.example.domain.YutResult;
+import org.example.domain.yut.YutResult;
 
 public class SquareBoard {
 
