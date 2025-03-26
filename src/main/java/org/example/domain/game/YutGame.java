@@ -43,4 +43,8 @@ public class YutGame {
     public GamePieces groupPieces(String piecesId1, String piecesId2) {
         return gamePiecesManager.groupPieces(piecesId1, piecesId2);
     }
+
+    public void moveTo(String pieceId, String place) {
+        gamePiecesManager.moveTo(pieceId, place);
+    }
 }

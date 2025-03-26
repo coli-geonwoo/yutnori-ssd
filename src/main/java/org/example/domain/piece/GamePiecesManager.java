@@ -2,7 +2,6 @@ package org.example.domain.piece;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +68,7 @@ public class GamePiecesManager {
         GamePieces piece1 = findById(pieceId1);
         GamePieces piece2 = findById(pieceId2);
 
-        if(!piece1.onSamePlace(piece2)) {
+        if (!piece1.onSamePlace(piece2)) {
             throw new RuntimeException("같은 위치에 있지 않습니다");
         }
 
@@ -77,6 +76,18 @@ public class GamePiecesManager {
         gamePieces.get(piece1.getPlace())
                 .remove(piece1);
         return piece2;
+    }
+
+    public void moveTo(String pieceId, String place) {
+        GamePieces piece = findById(pieceId);
+        piece.moveTo(place);
+
+        gamePieces.get(piece.getPlace())
+                .remove(piece);
+
+        gamePieces.putIfAbsent(place, new ArrayList<>());
+        gamePieces.get(place)
+                .add(piece);
     }
 
     private GamePieces findById(String pieceId) {
