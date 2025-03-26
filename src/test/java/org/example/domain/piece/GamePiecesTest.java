@@ -21,7 +21,7 @@ class GamePiecesTest {
     @ParameterizedTest
     @ValueSource(ints = {MIN_TEAM_NUMBER - 1, MAX_TEAM_NUMBER + 1})
     void throw_exception_when_out_of_team_number_range(int teamNumber) {
-        assertThatThrownBy(() -> new GamePieces(teamNumber, List.of()))
+        assertThatThrownBy(() -> new GamePieces(teamNumber, "말의 위치", List.of()))
                 .isInstanceOf(RuntimeException.class);
     }
 
@@ -29,14 +29,14 @@ class GamePiecesTest {
     @ParameterizedTest
     @ValueSource(ints = {MIN_TEAM_NUMBER, MAX_TEAM_NUMBER})
     void can_make_game_piece_when_valid_team_number(int teamNumber) {
-        assertThatCode(() -> new GamePieces(teamNumber, List.of()))
+        assertThatCode(() -> new GamePieces(teamNumber, "말의 위치", List.of()))
                 .doesNotThrowAnyException();
     }
 
     @DisplayName("같은 팀의 말 그룹인지 확인할 수 있다.")
     @Test
     void can_identify_same_team() {
-        GamePieces gamePieces = new GamePieces(1, List.of());
+        GamePieces gamePieces = new GamePieces(1, "말의 위치", List.of());
 
         assertAll(
                 () -> assertThat(gamePieces.isSameTeam(1)).isTrue(),
@@ -44,14 +44,17 @@ class GamePiecesTest {
         );
     }
 
-    @DisplayName("게임 말을 그룹에 추가할 수 있다")
+    @DisplayName("게임 말을 업을 수 있다")
     @Test
     void can_add_piece() {
         List<GamePiece> pieces = new ArrayList<>();
+        GamePiece gamePiece1 = new GamePiece(1);
+        pieces.add(gamePiece1);
         int beforeSize = pieces.size();
-        GamePieces gamePieces = new GamePieces(1, pieces);
-        gamePieces.addPiece(new GamePiece(2));
+        GamePieces gamePieces1 = new GamePieces(1, "말의 위치", new ArrayList<>());
+        GamePieces gamePieces2 = new GamePieces(2, "말의 위치", pieces);
+        gamePieces1.groupWith(gamePieces2);
 
-        assertThat(gamePieces.getPieces()).hasSize(beforeSize + 1);
+        assertThat(gamePieces1.getPieces()).hasSize(beforeSize + 1);
     }
 }
