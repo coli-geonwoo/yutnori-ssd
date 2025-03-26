@@ -33,7 +33,6 @@ public class SquareBoardCreator {
 
         CentralNode s4 = new CentralNode(List.of("S4"), "S4", new ArrayList<>(), new ArrayList<>());
 
-
         NormalNode a1 = new NormalNode("A1");
         NormalNode a2 = new NormalNode("A2");
         NormalNode a3 = new NormalNode("A3");
