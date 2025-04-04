@@ -47,14 +47,10 @@ class GamePiecesTest {
     @DisplayName("게임 말을 업을 수 있다")
     @Test
     void can_add_piece() {
-        List<GamePiece> pieces = new ArrayList<>();
-        GamePiece gamePiece1 = new GamePiece(1);
-        pieces.add(gamePiece1);
-        int beforeSize = pieces.size();
         GamePieces gamePieces1 = new GamePieces(1, "말의 위치", new ArrayList<>());
-        GamePieces gamePieces2 = new GamePieces(2, "말의 위치", pieces);
+        GamePieces gamePieces2 = new GamePieces(2, "말의 위치", List.of(new GamePiece(1)));
         gamePieces1.groupWith(gamePieces2);
 
-        assertThat(gamePieces1.getPieces()).hasSize(beforeSize + 1);
+        assertThat(gamePieces1.getPieces()).hasSize(1);
     }
 }
