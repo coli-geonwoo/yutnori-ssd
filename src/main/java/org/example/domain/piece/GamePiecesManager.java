@@ -19,11 +19,7 @@ public class GamePiecesManager {
 
     private Map<String, List<GamePieces>> initializeGamePieces(List<GamePieces> pieces) {
         Map<String, List<GamePieces>> gamePieces = new HashMap<>();
-        for (GamePieces piece : pieces) {
-            String place = piece.getPlace();
-            gamePieces.putIfAbsent(place, new ArrayList<>());
-            gamePieces.get(place).add(piece);
-        }
+        gamePieces.put(GAME_START_PLACE_NAME, pieces);
         return gamePieces;
     }
 
@@ -54,14 +50,17 @@ public class GamePiecesManager {
         gamePieces.get(catchPiece.getPlace())
                 .remove(catchPiece);
 
-        List<GamePieces> startPointPieces = gamePieces.get(GAME_START_PLACE_NAME);
+        catchPiece.getPieces()
+                .stream()
+                .forEach(piece -> initializePiecesToStartPoint(piece, catchPiece.getTeam()));
+    }
 
-        for (GamePiece piece : catchPiece.getPieces()) {
-            List<GamePiece> restartPiece = new ArrayList<>();
-            restartPiece.add(piece);
-            GamePieces restartPieces = new GamePieces(catchPiece.getTeam(), GAME_START_PLACE_NAME, restartPiece);
-            startPointPieces.add(restartPieces);
-        }
+    private void initializePiecesToStartPoint(GamePiece piece, int team) {
+        List<GamePieces> startPointPieces = gamePieces.get(GAME_START_PLACE_NAME);
+        List<GamePiece> restartPiece = new ArrayList<>();
+        restartPiece.add(piece);
+        GamePieces restartPieces = new GamePieces(team, GAME_START_PLACE_NAME, restartPiece);
+        startPointPieces.add(restartPieces);
     }
 
     public GamePieces groupPieces(String pieceId1, String pieceId2) {
