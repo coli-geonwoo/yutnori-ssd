@@ -79,14 +79,12 @@ public class GamePiecesManager {
 
     public void moveTo(String pieceId, String place) {
         GamePieces piece = findById(pieceId);
+        gamePieces.get(piece.getPlace()).remove(piece);
+
         piece.moveTo(place);
 
-        gamePieces.get(piece.getPlace())
-                .remove(piece);
-
         gamePieces.putIfAbsent(place, new ArrayList<>());
-        gamePieces.get(place)
-                .add(piece);
+        gamePieces.get(place).add(piece);
     }
 
     private GamePieces findById(String pieceId) {

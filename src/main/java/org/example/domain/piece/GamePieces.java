@@ -59,4 +59,8 @@ public class GamePieces {
     public int getTeam() {
         return team;
     }
+
+    public String getId() {
+        return id;
+    }
 }
