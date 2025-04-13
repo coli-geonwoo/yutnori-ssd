@@ -1,17 +1,16 @@
-package org.example.domain.board.square;
+package org.example.domain.board;
 
 import java.util.List;
 import java.util.Objects;
-import org.example.domain.board.Node;
 
-public class SqureCentralNode implements Node {
+public class SquareCentralNode implements Node {
 
     private final List<String> allNodeNames;
     private final String name;
     private final List<Node> before;
     private final List<Node> next;
 
-    public SqureCentralNode(List<String> allNodeNames, String name, List<Node> before, List<Node> next) {
+    public SquareCentralNode(List<String> allNodeNames, String name, List<Node> before, List<Node> next) {
         this.allNodeNames = allNodeNames;
         this.name = name;
         this.before = before;
@@ -59,7 +58,7 @@ public class SqureCentralNode implements Node {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        SqureCentralNode that = (SqureCentralNode) o;
+        SquareCentralNode that = (SquareCentralNode) o;
         return Objects.equals(getName(), that.getName());
     }
 

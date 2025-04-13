@@ -1,15 +1,15 @@
-package org.example.domain.board.square;
+package org.example.domain.board.creator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import org.example.domain.board.Board;
 import org.example.domain.board.CornerNode;
 import org.example.domain.board.EndNode;
 import org.example.domain.board.Node;
 import org.example.domain.board.NormalNode;
+import org.example.domain.board.SquareCentralNode;
 
-public class SquareBoardCreator {
+public class SquareBoardCreator extends AbstractBoardCreator {
 
     /*
     S2  -  B4  -  B3  -  B2  -  B1  -    S1
@@ -26,7 +26,7 @@ public class SquareBoardCreator {
                                        |
                                       END
      */
-    public SquareBoard initialize() {
+    public Board initialize() {
 
         CornerNode s0 = new CornerNode(List.of("S0", "AO", "D5", "F5"), "S0");
         CornerNode s1 = new CornerNode(List.of("S1", "EO", "BO", "A5"), "S1");
@@ -35,7 +35,7 @@ public class SquareBoardCreator {
         CornerNode s5 = new CornerNode(List.of("S5"), "S5");
         EndNode endNode = new EndNode("end");
 
-        SqureCentralNode s4 = new SqureCentralNode(List.of("S4"), "S4", new ArrayList<>(), new ArrayList<>());
+        SquareCentralNode s4 = new SquareCentralNode(List.of("S4"), "S4", new ArrayList<>(), new ArrayList<>());
 
         NormalNode a1 = new NormalNode("A1");
         NormalNode a2 = new NormalNode("A2");
@@ -89,43 +89,11 @@ public class SquareBoardCreator {
         return createBoard(nodes);
     }
 
-    private SquareBoard createBoard(List<Node> nodes) {
-        Map<String, Node> map = nodes.stream()
-                .collect(Collectors.toMap(Node::getName, node -> node));
-        return new SquareBoard(map);
-    }
-
-    private void linkEnd(CornerNode startNode, CornerNode cornerNode, EndNode end) {
-        startNode.setBefore(end);
-        cornerNode.setForwardNext(end);
-        cornerNode.setStandNext(end);
-    }
-
-    private void linkOneSide(
-            CornerNode start,
-            NormalNode node1,
-            NormalNode node2,
-            NormalNode node3,
-            NormalNode node4,
-            CornerNode end
-    ) {
-        start.setForwardNext(node1);
-        node1.setBefore(start);
-        node1.setNext(node2);
-        node2.setBefore(node1);
-        node2.setNext(node3);
-        node3.setBefore(node2);
-        node3.setNext(node4);
-        node4.setBefore(node3);
-        node4.setNext(end);
-        end.setBefore(node4);
-    }
-
     private void linkCentral(
             CornerNode start,
             NormalNode node1,
             NormalNode node2,
-            SqureCentralNode central,
+            SquareCentralNode central,
             NormalNode node3,
             NormalNode node4,
             CornerNode end

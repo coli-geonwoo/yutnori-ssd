@@ -4,13 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
-import org.example.domain.board.square.SquareBoard;
-import org.example.domain.board.square.SquareBoardCreator;
+import org.example.domain.board.creator.SquareBoardCreator;
 import org.example.domain.yut.YutResult;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class SquareBoardTest {
+class BoardTest {
 
     /*
     * : 출발지
@@ -33,7 +32,7 @@ class SquareBoardTest {
     @Test
     void return_one_node_when_passed_away_corner() {
         SquareBoardCreator creator = new SquareBoardCreator();
-        SquareBoard board = creator.initialize();
+        Board board = creator.initialize();
 
         List<Node> nextNodes = board.next("A4", YutResult.GAE);
 
@@ -64,7 +63,7 @@ class SquareBoardTest {
     @Test
     void return_two_node_when_start_from_corner() {
         SquareBoardCreator creator = new SquareBoardCreator();
-        SquareBoard board = creator.initialize();
+        Board board = creator.initialize();
 
         List<String> nextNodeNames = board.next("S1", YutResult.DO)
                 .stream()
@@ -98,7 +97,7 @@ class SquareBoardTest {
     @Test
     void return_straight_node_when_passed_away_central() {
         SquareBoardCreator creator = new SquareBoardCreator();
-        SquareBoard board = creator.initialize();
+        Board board = creator.initialize();
 
         List<Node> nextNode2 = board.next("E1", YutResult.GUL);
         List<Node> nextNode3 = board.next("E2", YutResult.GAE);
@@ -130,7 +129,7 @@ class SquareBoardTest {
     @Test
     void return_straight_node_when_passed_away_central_from_corner() {
         SquareBoardCreator creator = new SquareBoardCreator();
-        SquareBoard board = creator.initialize();
+        Board board = creator.initialize();
 
         List<String> nextNodeNames = board.next("S1", YutResult.YUT)
                 .stream()
@@ -164,7 +163,7 @@ class SquareBoardTest {
     @Test
     void return_two_node_when_start_from_central() {
         SquareBoardCreator creator = new SquareBoardCreator();
-        SquareBoard board = creator.initialize();
+        Board board = creator.initialize();
 
         List<String> nextNodeNames = board.next("S4", YutResult.GAE)
                 .stream()
@@ -198,7 +197,7 @@ class SquareBoardTest {
     @Test
     void arrive_s5_node_when_arrive() {
         SquareBoardCreator creator = new SquareBoardCreator();
-        SquareBoard board = creator.initialize();
+        Board board = creator.initialize();
 
         List<String> nextNodeNames = board.next("F3", YutResult.GAE)
                 .stream()
@@ -232,7 +231,7 @@ class SquareBoardTest {
     @Test
     void return_end_node_when_arrive() {
         SquareBoardCreator creator = new SquareBoardCreator();
-        SquareBoard board = creator.initialize();
+        Board board = creator.initialize();
 
         List<Node> nextNode = board.next("F3", YutResult.MO);
 
@@ -263,7 +262,7 @@ class SquareBoardTest {
     @Test
     void return_end_node_when_backdo_from_start() {
         SquareBoardCreator creator = new SquareBoardCreator();
-        SquareBoard board = creator.initialize();
+        Board board = creator.initialize();
 
         List<Node> nextNode = board.next("S0", YutResult.BACK_DO);
 

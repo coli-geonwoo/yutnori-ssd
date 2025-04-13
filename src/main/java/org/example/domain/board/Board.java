@@ -1,16 +1,15 @@
-package org.example.domain.board.square;
+package org.example.domain.board;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.example.domain.board.Node;
 import org.example.domain.yut.YutResult;
 
-public class SquareBoard {
+public class Board {
 
     private final Map<String, Node> boards;
 
-    public SquareBoard(Map<String, Node> boards) {
+    public Board(Map<String, Node> boards) {
         this.boards = boards;
     }
 
