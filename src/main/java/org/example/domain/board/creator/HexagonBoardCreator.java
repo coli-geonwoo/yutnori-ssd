@@ -105,9 +105,14 @@ public class HexagonBoardCreator extends AbstractBoardCreator {
 
         s6.setShortestPathNode(i3);
         s6.setSecondShortestPathNode(h3);
-        linkCentral(s1, g1, g2, s6, g3, g4, s4);
-        linkCentral(s2, h1, h2, s6, h3, h4, s5);
-        linkCentral(s3, i1, i2, s6, i3, i4, s7);
+
+        linkCornerToCentral(s1, g1, g2, s6);
+        linkCornerToCentral(s2, h1, h2, s6);
+        linkCornerToCentral(s3, i1, i2, s6);
+        linkCornerToCentral(s4, g4, g3, s6);
+
+        linkCentralToCorner(s6, h3, h4, s5);
+        linkCentralToCorner(s6, i3, i4, s7);
 
         linkEnd(s0, s7, endNode);
 
@@ -127,14 +132,11 @@ public class HexagonBoardCreator extends AbstractBoardCreator {
         return createBoard(nodes);
     }
 
-    private void linkCentral(
+    private void linkCornerToCentral(
             CornerNode start,
             NormalNode node1,
             NormalNode node2,
-            PolygonCentralNode central,
-            NormalNode node3,
-            NormalNode node4,
-            CornerNode end
+            PolygonCentralNode central
     ) {
         start.setStandNext(node1);
         node1.setBefore(start);
@@ -142,9 +144,18 @@ public class HexagonBoardCreator extends AbstractBoardCreator {
         node2.setBefore(start);
         node2.setNext(central);
         central.addBefore(node2);
-        node3.setBefore(central);
-        node3.setNext(node4);
-        node4.setBefore(node3);
-        node4.setNext(end);
+    }
+
+    private void linkCentralToCorner(
+            PolygonCentralNode central,
+            NormalNode node1,
+            NormalNode node2,
+            CornerNode corner
+    ) {
+        node1.setBefore(central);
+        node1.setNext(node2);
+        node2.setBefore(node1);
+        node2.setNext(corner);
+        corner.setBefore(node2);
     }
 }
