@@ -35,7 +35,7 @@ public class SquareBoardCreator {
         CornerNode s5 = new CornerNode(List.of("S5"), "S5");
         EndNode endNode = new EndNode("end");
 
-        CentralNode s4 = new CentralNode(List.of("S4"), "S4", new ArrayList<>(), new ArrayList<>());
+        SqureCentralNode s4 = new SqureCentralNode(List.of("S4"), "S4", new ArrayList<>(), new ArrayList<>());
 
         NormalNode a1 = new NormalNode("A1");
         NormalNode a2 = new NormalNode("A2");
@@ -125,7 +125,7 @@ public class SquareBoardCreator {
             CornerNode start,
             NormalNode node1,
             NormalNode node2,
-            CentralNode central,
+            SqureCentralNode central,
             NormalNode node3,
             NormalNode node4,
             CornerNode end

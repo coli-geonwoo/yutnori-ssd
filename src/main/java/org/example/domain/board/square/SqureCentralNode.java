@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Objects;
 import org.example.domain.board.Node;
 
-public class CentralNode implements Node {
+public class SqureCentralNode implements Node {
 
     private final List<String> allNodeNames;
     private final String name;
     private final List<Node> before;
     private final List<Node> next;
 
-    public CentralNode(List<String> allNodeNames, String name, List<Node> before, List<Node> next) {
+    public SqureCentralNode(List<String> allNodeNames, String name, List<Node> before, List<Node> next) {
         this.allNodeNames = allNodeNames;
         this.name = name;
         this.before = before;
@@ -59,7 +59,7 @@ public class CentralNode implements Node {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        CentralNode that = (CentralNode) o;
+        SqureCentralNode that = (SqureCentralNode) o;
         return Objects.equals(getName(), that.getName());
     }
 
