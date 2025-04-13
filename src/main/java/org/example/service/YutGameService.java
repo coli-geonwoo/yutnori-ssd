@@ -2,7 +2,7 @@ package org.example.service;
 
 import java.util.List;
 import org.example.domain.board.Node;
-import org.example.domain.board.SquareBoard;
+import org.example.domain.board.square.SquareBoard;
 import org.example.domain.piece.GamePieceInitializer;
 import org.example.domain.piece.GamePieces;
 import org.example.domain.piece.GamePiecesManager;

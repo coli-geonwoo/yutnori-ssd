@@ -1,7 +1,8 @@
-package org.example.domain.board;
+package org.example.domain.board.square;
 
 import java.util.List;
 import java.util.Objects;
+import org.example.domain.board.Node;
 
 public class CentralNode implements Node {
 

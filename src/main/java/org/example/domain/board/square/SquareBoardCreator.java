@@ -1,9 +1,13 @@
-package org.example.domain.board;
+package org.example.domain.board.square;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.example.domain.board.CornerNode;
+import org.example.domain.board.EndNode;
+import org.example.domain.board.Node;
+import org.example.domain.board.NormalNode;
 
 public class SquareBoardCreator {
 

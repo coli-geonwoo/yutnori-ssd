@@ -1,8 +1,9 @@
-package org.example.domain.board;
+package org.example.domain.board.square;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.example.domain.board.Node;
 import org.example.domain.yut.YutResult;
 
 public class SquareBoard {
