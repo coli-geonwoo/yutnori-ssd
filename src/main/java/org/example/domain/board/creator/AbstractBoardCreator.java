@@ -42,4 +42,6 @@ public abstract class AbstractBoardCreator {
                 .collect(Collectors.toMap(Node::getName, node -> node));
         return new Board(map);
     }
+
+    public abstract Board initialize();
 }

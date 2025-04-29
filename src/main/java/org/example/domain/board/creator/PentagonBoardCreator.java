@@ -9,34 +9,33 @@ import org.example.domain.board.Node;
 import org.example.domain.board.NormalNode;
 import org.example.domain.board.PolygonCentralNode;
 
-public class HexagonBoardCreator extends AbstractBoardCreator {
+public class PentagonBoardCreator extends AbstractBoardCreator {
 
-       /*
-              S3  -  C4  -  C3  -  C2  -  C1  -   S2
-             |                                       |
-            D1                                       B4
-           |       I1                      H1          |
-          D2                                           B3
-         |                                               |
-        D3                I2         H2                  B2
-       |                                                   |
-      D4                                                   B1
-     |                                                      |
-    S4        G4       G3      S6      G2         G1        S1
-     |                                                      |
-      E1                                                   A4
-       |                   H3       I3                    |
-        E2                                               A3
-         |                                              |
-          E3        H4                     I4          A2
-           |                                          |
-            E4                                       A1
-             |                                      |
-              S5  -  F1  -  F2  -  F3  -  F4  - S7 S0
-                                                 |
-                                                END
-        */
-
+    /*
+                                  S2
+                               |      |
+                            C1     G1    B4
+                          |                  |
+                      C2           |            B3
+                   |                                |
+                C3                 G2                  B2
+             |                                            |
+         C4                        |                         B1
+       |                                                         |
+     S3    -   H1    -   H2    -   S6   -   F2    -   F1    -      S1
+       |                                                          |
+        D1                     /      \                         A4
+          |                  I1        J1                      |
+           D2                                                A3
+            |             /                \                |
+             D3                                           A2
+              |       I2                       J2        |
+               D4                                       A1
+                |  /                               \   |
+                 S4  -  E1  -  E2  -  E3  -  E4  - S5 S0
+                                                |
+                                               END
+       */
     @Override
     public Board initialize() {
 
@@ -46,7 +45,6 @@ public class HexagonBoardCreator extends AbstractBoardCreator {
         CornerNode s3 = new CornerNode(List.of(), "S3");
         CornerNode s4 = new CornerNode(List.of(), "S4");
         CornerNode s5 = new CornerNode(List.of(), "S5");
-        CornerNode s7 = new CornerNode(List.of(), "S7");
         EndNode endNode = new EndNode("end");
 
         PolygonCentralNode s6 = new PolygonCentralNode(List.of(), "S6", new ArrayList<>());
@@ -78,23 +76,18 @@ public class HexagonBoardCreator extends AbstractBoardCreator {
 
         NormalNode f1 = new NormalNode("F1");
         NormalNode f2 = new NormalNode("F2");
-        NormalNode f3 = new NormalNode("F3");
-        NormalNode f4 = new NormalNode("F4");
 
         NormalNode g1 = new NormalNode("G1");
         NormalNode g2 = new NormalNode("G2");
-        NormalNode g3 = new NormalNode("G3");
-        NormalNode g4 = new NormalNode("G4");
 
         NormalNode h1 = new NormalNode("H1");
         NormalNode h2 = new NormalNode("H2");
-        NormalNode h3 = new NormalNode("H3");
-        NormalNode h4 = new NormalNode("H4");
 
         NormalNode i1 = new NormalNode("I1");
         NormalNode i2 = new NormalNode("I2");
-        NormalNode i3 = new NormalNode("I3");
-        NormalNode i4 = new NormalNode("I4");
+
+        NormalNode j1 = new NormalNode("J1");
+        NormalNode j2 = new NormalNode("J2");
 
         linkOneSide(s0, a1, a2, a3, a4, s1);
         linkOneSide(s1, b1, b2, b3, b4, s2);
@@ -102,20 +95,18 @@ public class HexagonBoardCreator extends AbstractBoardCreator {
         linkOneSide(s2, c1, c2, c3, c4, s3);
         linkOneSide(s3, d1, d2, d3, d4, s4);
         linkOneSide(s4, e1, e2, e3, e4, s5);
-        linkOneSide(s5, f1, f2, f3, f4, s7);
 
-        s6.setShortestPathNode(i3);
-        s6.setSecondShortestPathNode(h3);
+        s6.setShortestPathNode(j1);
+        s6.setSecondShortestPathNode(i1);
 
-        linkCornerToCentral(s1, g1, g2, s6);
-        linkCornerToCentral(s2, h1, h2, s6);
-        linkCornerToCentral(s3, i1, i2, s6);
-        linkCornerToCentral(s4, g4, g3, s6);
+        linkCornerToCentral(s1, f1, f2, s6);
+        linkCornerToCentral(s2, g1, g2, s6);
+        linkCornerToCentral(s3, h1, h2, s6);
 
-        linkCentralToCorner(s6, h3, h4, s5);
-        linkCentralToCorner(s6, i3, i4, s7);
+        linkCentralToCorner(s6, i1, i2, s4);
+        linkCentralToCorner(s6, j1, j2, s5);
 
-        linkEnd(s0, s7, endNode);
+        linkEnd(s0, s5, endNode);
 
         List<Node> nodes = List.of(
                 a1, a2, a3, a4,
@@ -123,13 +114,13 @@ public class HexagonBoardCreator extends AbstractBoardCreator {
                 c1, c2, c3, c4,
                 d1, d2, d3, d4,
                 e1, e2, e3, e4,
-                f1, f2, f3, f4,
-                g1, g2, g3, g4,
-                h1, h2, h3, h4,
-                i1, i2, i3, i4,
+                f1, f2, g1, g2,
+                h1, h2, i1, i2,
+                j1, j2,
                 s0, s1, s2, s3,
-                s4, s5, s6, s7
+                s4, s5, s6
         );
+
         return createBoard(nodes);
     }
 
