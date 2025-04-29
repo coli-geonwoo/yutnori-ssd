@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import org.example.domain.board.creator.HexagonBoardCreator;
+import org.example.domain.board.creator.PentagonBoardCreator;
 import org.example.domain.board.creator.SquareBoardCreator;
 import org.example.domain.yut.YutResult;
 import org.junit.jupiter.api.DisplayName;
@@ -554,24 +555,342 @@ class BoardTest {
         /*
         * : 출발지
         $ : 도착지
-        S2  -  *  -  B3  -  B2  -  B1  -       S1
-         |  F1                         E1      |
-        C1                                     A4
-         |       F2              E2            |
-        C2                                     A3
-         |                S4                   |
-        C3                                     A2
-         |       E3              F3            |
-        C4                                     A1
-         |  E4                          F4     |
-        S3  -  D1  -  D2  -  D3  -  D4  - S5   *
-                                          |  /
-                                          $
-       */
+
+             S3  -  C4  -  C3  -  C2  -  C1  -   S2
+            |                                       |
+           D1                                       B4
+          |       I1                      H1          |
+         D2                                           B3
+        |                                               |
+       D3                I2         H2                  B2
+      |                                                   |
+     D4                                                   $
+    |                                                      |
+   S4        G4       G3      S6      G2         G1        S1
+    |                                                      |
+     E1                                                   *
+      |                   H3       I3                    |
+       E2                                               A3
+        |                                              |
+         E3        H4                     I4          A2
+          |                                          |
+           E4                                       A1
+            |                                      |
+             S5  -  F1  -  F2  -  F3  -  F4  - S7 S0
+                                                |
+                                               END
+         */
         @DisplayName("S0 -> END : 시작노드에서 백도가 나오면 도착으로 취급한다")
         @Test
         void return_end_node_when_backdo_from_start() {
             HexagonBoardCreator creator = new HexagonBoardCreator();
+            Board board = creator.initialize();
+
+            List<Node> nextNode = board.next("S0", YutResult.BACK_DO);
+
+            assertAll(
+                    () -> assertThat(nextNode).hasSize(1),
+                    () -> assertThat(nextNode.get(0).isEnd()).isTrue()
+            );
+        }
+    }
+
+    @Nested
+    class PentagonBoardTest {
+        
+        /*'
+        * : 출발지
+        $ : 도착지
+                                  S2
+                               |      |
+                            C1     G1    B4
+                          |                  |
+                      C2           |            B3
+                   |                                |
+                C3                 G2                  B2
+             |                                            |
+         C4                        |                         $
+       |                                                         |
+     S3    -   H1    -   H2    -   S6   -   F2    -   F1    -      S1
+       |                                                          |
+        D1                     /      \                         *
+          |                  I1        J1                      |
+           D2                                                A3
+            |             /                \                |
+             D3                                           A2
+              |       I2                       J2        |
+               D4                                       A1
+                |  /                               \   |
+                 S4  -  E1  -  E2  -  E3  -  E4  - S5 S0
+                                                |
+                                               END
+       */
+        
+        @DisplayName("A4 -> B1 : 코너를 지나쳐 가는 경우에 하나의 다음 노드만 반환된다")
+        @Test
+        void return_one_node_when_passed_away_corner() {
+            PentagonBoardCreator creator = new PentagonBoardCreator();
+            Board board = creator.initialize();
+
+            List<Node> nextNodes = board.next("A4", YutResult.GAE);
+
+            assertAll(
+                    () -> assertThat(nextNodes).hasSize(1),
+                    () -> assertThat(nextNodes.get(0).getName()).isEqualTo("B1")
+            );
+        }
+
+        /*'
+       * : 출발지
+       $ : 도착지
+                                 S2
+                              |      |
+                           C1     G1    B4
+                         |                  |
+                     C2           |            B3
+                  |                                |
+               C3                 G2                  B2
+            |                                            |
+        C4                        |                         B1
+      |                                                         |
+    S3    -   H1    -   H2    -   S6   -   F2    -   F1    -      S1
+      |                                                          |
+       D1                     /      \                         A4
+         |                  I1        J1                      |
+          D2                                                A3
+           |             /                \                |
+            D3                                           A2
+             |       I2                       J2        |
+              D4                                       A1
+               |  /                               \   |
+                S4  -  E1  -  E2  -  E3  -  E4  - S5 S0
+                                               |
+                                              END
+      */
+        @DisplayName("S3 -> H1, D1 : 코너에서 시작하는 경우 두 개의 다음 노드를 반환된다")
+        @Test
+        void return_two_node_when_start_from_corner() {
+            PentagonBoardCreator creator = new PentagonBoardCreator();
+            Board board = creator.initialize();
+
+            List<String> nextNodeNames = board.next("S3", YutResult.DO)
+                    .stream()
+                    .map(Node::getName)
+                    .toList();
+
+            assertAll(
+                    () -> assertThat(nextNodeNames).hasSize(2),
+                    () -> assertThat(nextNodeNames).containsExactlyInAnyOrder("H1", "D1")
+            );
+        }
+
+        /*'
+       * : 출발지
+       $ : 도착지
+                                 S2
+                              |      |
+                           C1     G1    B4
+                         |                  |
+                     C2           |            B3
+                  |                                |
+               C3                 G2                  B2
+            |                                            |
+        C4                        |                         $
+      |                                                         |
+    S3    -   H1    -   H2    -   S6   -   F2    -   F1    -      S1
+      |                                                          |
+       D1                     /      \                         *
+         |                  I1        J1                      |
+          D2                                                A3
+           |             /                \                |
+            D3                                           A2
+             |       I2                       J2        |
+              D4                                       A1
+               |  /                               \   |
+                S4  -  E1  -  E2  -  E3  -  E4  - S5 S0
+                                               |
+                                              END
+      */
+        @DisplayName("F2, G2, H2 -> I1 : 다른 노드에서 중앙노드를 거쳐가는 경우, 두번째 최단 거리로 진행한다")
+        @Test
+        void return_second_shortest_path_node_when_passed_away_central() {
+            PentagonBoardCreator creator = new PentagonBoardCreator();
+            Board board = creator.initialize();
+
+            List<Node> nextNode1 = board.next("F2", YutResult.GAE);
+            List<Node> nextNode2 = board.next("G2", YutResult.GAE);
+            List<Node> nextNode3 = board.next("H2", YutResult.GAE);
+
+            assertAll(
+                    () -> assertThat(nextNode1).hasSize(1),
+                    () -> assertThat(nextNode2).hasSize(1),
+                    () -> assertThat(nextNode3).hasSize(1),
+                    () -> assertThat(nextNode1.get(0).getName()).isEqualTo("I1"),
+                    () -> assertThat(nextNode2.get(0).getName()).isEqualTo("I1"),
+                    () -> assertThat(nextNode3.get(0).getName()).isEqualTo("I1")
+            );
+        }
+
+        /*'
+       * : 출발지
+       $ : 도착지
+                                 S2
+                              |      |
+                           C1     G1    B4
+                         |                  |
+                     C2           |            B3
+                  |                                |
+               C3                 G2                  B2
+            |                                            |
+        C4                        |                         B1
+      |                                                         |
+    S3    -   H1    -   H2    -   *   -   F2    -   F1    -      S1
+      |                                                          |
+       D1                     /      \                         A4
+         |                  I1        J1                      |
+          D2                                                A3
+           |             /                \                |
+            D3                                           A2
+             |       I2                       $        |
+              D4                                       A1
+               |  /                               \   |
+                S4  -  E1  -  E2  -  E3  -  E4  - S5 S0
+                                               |
+                                              END
+      */
+        @DisplayName("S6 -> J2 중앙에서 시작하는 경우 가장 짧은 루트를 반환한다")
+        @Test
+        void return_two_node_when_start_from_central() {
+            PentagonBoardCreator creator = new PentagonBoardCreator();
+            Board board = creator.initialize();
+
+            List<String> nextNodeNames = board.next("S6", YutResult.GAE)
+                    .stream()
+                    .map(Node::getName)
+                    .toList();
+
+            assertAll(
+                    () -> assertThat(nextNodeNames).hasSize(1),
+                    () -> assertThat(nextNodeNames).containsExactly("J2")
+            );
+        }
+
+        /*'
+       * : 출발지
+       $ : 도착지
+                                 S2
+                              |      |
+                           C1     G1    B4
+                         |                  |
+                     C2           |            B3
+                  |                                |
+               C3                 G2                  B2
+            |                                            |
+        C4                        |                         $
+      |                                                         |
+    S3    -   H1    -   H2    -   S6   -   F2    -   F1    -      S1
+      |                                                          |
+       D1                     /      \                         *
+         |                  I1        J1                      |
+          D2                                                A3
+           |             /                \                |
+            D3                                           A2
+             |       I2                       J2        |
+              D4                                       A1
+               |  /                               \   |
+                S4  -  E1  -  E2  -  E3  -  E4  - S5 S0
+                                               |
+                                              END
+      */
+        @DisplayName("J1 -> S5 : 다시 시작점으로 들어가는 경우 S7노드에 도착한다")
+        @Test
+        void arrive_s7_node_when_arrive() {
+            PentagonBoardCreator creator = new PentagonBoardCreator();
+            Board board = creator.initialize();
+
+            List<String> nextNodeNames = board.next("J1", YutResult.GAE)
+                    .stream()
+                    .map(Node::getName)
+                    .toList();
+
+            assertAll(
+                    () -> assertThat(nextNodeNames).hasSize(1),
+                    () -> assertThat(nextNodeNames).containsExactly("S5")
+            );
+        }
+
+        /*'
+        * : 출발지
+        $ : 도착지
+                                  S2
+                               |      |
+                            C1     G1    B4
+                          |                  |
+                      C2           |            B3
+                   |                                |
+                C3                 G2                  B2
+             |                                            |
+         C4                        |                         B1
+       |                                                         |
+     S3    -   H1    -   H2    -   S6   -   F2    -   F1    -      S1
+       |                                                          |
+        D1                     /      \                         A4
+          |                  I1        J1                      |
+           D2                                                A3
+            |             /                \                |
+             D3                                           A2
+              |       I2                       J2        |
+               D4                                       A1
+                |  /                               \   |
+                 S4  -  E1  -  E2  -  E3  -  E4  - S5 S0
+                                                |
+                                               END
+       */
+        @DisplayName("J1 -> END : 주어진 행마 안에 도착하는 경우 EndNode를 반환한다")
+        @Test
+        void return_end_node_when_arrive() {
+            PentagonBoardCreator creator = new PentagonBoardCreator();
+            Board board = creator.initialize();
+
+            List<Node> nextNode = board.next("J1", YutResult.MO);
+
+            assertAll(
+                    () -> assertThat(nextNode).hasSize(1),
+                    () -> assertThat(nextNode.get(0).isEnd()).isTrue()
+            );
+        }
+
+        /*'
+       * : 출발지
+       $ : 도착지
+                                 S2
+                              |      |
+                           C1     G1    B4
+                         |                  |
+                     C2           |            B3
+                  |                                |
+               C3                 G2                  B2
+            |                                            |
+        C4                        |                         $
+      |                                                         |
+    S3    -   H1    -   H2    -   S6   -   F2    -   F1    -      S1
+      |                                                          |
+       D1                     /      \                         *
+         |                  I1        J1                      |
+          D2                                                A3
+           |             /                \                |
+            D3                                           A2
+             |       I2                       J2        |
+              D4                                       A1
+               |  /                               \   |
+                S4  -  E1  -  E2  -  E3  -  E4  - S5 S0
+                                               |
+                                              END
+      */
+        @DisplayName("S0 -> END : 시작노드에서 백도가 나오면 도착으로 취급한다")
+        @Test
+        void return_end_node_when_backdo_from_start() {
+            PentagonBoardCreator creator = new PentagonBoardCreator();
             Board board = creator.initialize();
 
             List<Node> nextNode = board.next("S0", YutResult.BACK_DO);
