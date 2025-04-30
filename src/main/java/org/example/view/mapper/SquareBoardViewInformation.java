@@ -93,6 +93,6 @@ public enum SquareBoardViewInformation implements ViewInformation {
 
     @Override
     public boolean isType(BoardType type) {
-        return BoardType.HEXAGON == type;
+        return BoardType.SQUARE == type;
     }
 }

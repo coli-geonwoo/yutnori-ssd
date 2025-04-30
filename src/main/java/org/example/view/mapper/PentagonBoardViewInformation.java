@@ -116,6 +116,6 @@ public enum PentagonBoardViewInformation implements ViewInformation {
 
     @Override
     public boolean isType(BoardType type) {
-        return BoardType.HEXAGON == type;
+        return BoardType.PENTAGON == type;
     }
 }
