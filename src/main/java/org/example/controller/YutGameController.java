@@ -7,20 +7,16 @@ import org.example.domain.yut.YutResult;
 import org.example.dto.GameInitializeDto;
 import org.example.dto.YutGenerationRequest;
 import org.example.service.GameService;
-import org.example.view.InputView;
-import org.example.view.OutputView;
+import org.example.view.ViewInterface;
 
 public class YutGameController {
 
-    private final InputView inputView;
-    private final OutputView outputView;
+    private final ViewInterface viewInteface;
     private final GameService gameService;
 
-    public YutGameController(InputView inputView, OutputView outputView, GameService gameService) {
-        this.inputView = inputView;
-        this.outputView = outputView;
-
-        GameInitializeDto initializeDto = inputView.readInitializeInfo();
+    public YutGameController(ViewInterface viewInteface, GameService gameService) {
+        this.viewInteface = viewInteface;
+        GameInitializeDto initializeDto = viewInteface.readInitializeInfo();
         this.gameService = new GameService(initializeDto.teamCount(), initializeDto.pieceCount(),
                 initializeDto.boardType());
     }
@@ -42,11 +38,11 @@ public class YutGameController {
     private void playTurn(YutResult yutResult) {
         //움직일 말 선택
         List<GamePieces> pieces = gameService.findAllPieces();
-        GamePieces chosenPiece = inputView.readMovingPiece(pieces);
+        GamePieces chosenPiece = viewInteface.readMovingPiece(pieces);
 
         //이동할 칸 선택
         List<String> movablePlaces = gameService.findMovablePlaces(chosenPiece.getPlace(), yutResult);
-        String movingPlace = inputView.chooseMovingPlace(movablePlaces);
+        String movingPlace = viewInteface.chooseMovingPlace(movablePlaces);
 
         //말 잡기 > 업기 > 이동
         movePiece(chosenPiece.getId(), movingPlace);
@@ -70,7 +66,7 @@ public class YutGameController {
             return;
         }
 
-        GamePieces groupingPiece = inputView.readCatchingPiece(groupablePieces);
+        GamePieces groupingPiece = viewInteface.readCatchingPiece(groupablePieces);
 
         if(groupingPiece==null){
             return;
@@ -92,7 +88,7 @@ public class YutGameController {
             return;
         }
 
-        GamePieces catchingPiece = inputView.readCatchingPiece(catchablePieces);
+        GamePieces catchingPiece = viewInteface.readCatchingPiece(catchablePieces);
         gameService.catchPieces(catchingPiece.getId());
     }
 
@@ -101,7 +97,7 @@ public class YutGameController {
         List<YutResult> turnYutResults = new ArrayList<>();
 
         do {
-            YutGenerationRequest request = inputView.readYutGenerationInfo();
+            YutGenerationRequest request = viewInteface.readYutGenerationInfo();
             yutResult = gameService.generateYut(request.options(), request.yutResult());
             turnYutResults.add(yutResult);
         } while (yutResult == YutResult.YUT || yutResult ==YutResult.MO);
@@ -113,6 +109,6 @@ public class YutGameController {
         if(turnYutResults.size()==1){
             return turnYutResults.get(0);
         }
-        return inputView.chooseYutResult(turnYutResults);
+        return viewInteface.chooseYutResult(turnYutResults);
     }
 }

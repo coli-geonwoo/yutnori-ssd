@@ -6,7 +6,7 @@ import org.example.domain.yut.YutResult;
 import org.example.dto.GameInitializeDto;
 import org.example.dto.YutGenerationRequest;
 
-public interface InputView {
+public interface ViewInterface {
 
     //팀 개수, 말개수, 보드 유형 받기
     GameInitializeDto readInitializeInfo();
