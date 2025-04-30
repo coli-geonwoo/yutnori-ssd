@@ -12,12 +12,14 @@ import org.example.domain.yut.YutResult;
 
 public class GameService {
 
+    private final BoardType boardType;
     private final Turn turn;
     private final ScoreBoard scoreBoard;
     private final YutGenerator yutGenerator;
     private final BoardService boardService;
 
     public GameService(int teamCount, int pieceCount, BoardType boardType) {
+        this.boardType = boardType;
         this.turn = new Turn(teamCount);
         this.scoreBoard = new ScoreBoard(teamCount, pieceCount);
         this.yutGenerator = new YutGenerator(new RandomYutGenerateStrategy());
@@ -64,15 +66,15 @@ public class GameService {
         turn.nextTurn();
     }
 
-    public int getTurn() {
-        return turn.getTurn();
-    }
-
     public boolean isEndGame() {
         return scoreBoard.isEnd();
     }
 
     public int getWinner() {
         return scoreBoard.getWinner();
+    }
+
+    public BoardType getBoardType() {
+        return boardType;
     }
 }

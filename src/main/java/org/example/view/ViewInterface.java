@@ -1,9 +1,11 @@
 package org.example.view;
 
 import java.util.List;
+import org.example.domain.game.GameDecision;
 import org.example.domain.piece.GamePieces;
 import org.example.domain.yut.YutResult;
 import org.example.dto.GameInitializeDto;
+import org.example.dto.NodeViewDto;
 import org.example.dto.YutGenerationRequest;
 
 public interface ViewInterface {
@@ -29,4 +31,13 @@ public interface ViewInterface {
     // 여러개의 업을 수 있는 말 중에 업을 말 고르기 -> 업을 말의 PieceId반환
     // 업지 않는 선택을 했다면 null 반환
     GamePieces readGroupingPiece(List<GamePieces> catchAblePieces);
+
+    //재시작할 건지 종료할건지 선택
+    GameDecision readGameDecision();
+
+    // 보드 노드의 x,y, 이름 dto 받아서 보드 그리기
+    void printBoard(List<NodeViewDto> nodeViewDtos);
+
+    //이긴 사람 보여주기
+    void printWinner(int winnerNumber);
 }

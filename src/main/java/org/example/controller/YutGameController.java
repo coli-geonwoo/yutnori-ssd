@@ -2,37 +2,54 @@ package org.example.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.example.domain.board.BoardType;
+import org.example.domain.game.GameDecision;
 import org.example.domain.piece.GamePieces;
 import org.example.domain.yut.YutResult;
 import org.example.dto.GameInitializeDto;
+import org.example.dto.NodeViewDto;
 import org.example.dto.YutGenerationRequest;
 import org.example.service.GameService;
 import org.example.view.ViewInterface;
+import org.example.view.mapper.BoardViewMapper;
 
 public class YutGameController {
 
+    private final BoardViewMapper boardViewMapper;
     private final ViewInterface viewInteface;
     private final GameService gameService;
 
-    public YutGameController(ViewInterface viewInteface, GameService gameService) {
+    public YutGameController(ViewInterface viewInteface) {
+        this.boardViewMapper = new BoardViewMapper();
         this.viewInteface = viewInteface;
         GameInitializeDto initializeDto = viewInteface.readInitializeInfo();
-        this.gameService = new GameService(initializeDto.teamCount(), initializeDto.pieceCount(),
-                initializeDto.boardType());
+        this.gameService = new GameService(
+                initializeDto.teamCount(),
+                initializeDto.pieceCount(),
+                initializeDto.boardType()
+        );
     }
 
     public void playGame() {
 
+        drawBoard();
+
         while (!gameService.isEndGame()) {
             List<YutResult> turnYutResults = readTurnYutResults();
 
-            while(!turnYutResults.isEmpty()){
+            while (!turnYutResults.isEmpty()) {
                 YutResult yutResult = chooseYutResult(turnYutResults);
                 playTurn(yutResult);
             }
 
             gameService.nextTurn();
         }
+
+        // 이긴 사람 보여주기
+        viewInteface.printWinner(gameService.getWinner());
+
+        // 다시할건지 그만할건지 재입력 받기
+        askRestartOrExit();
     }
 
     private void playTurn(YutResult yutResult) {
@@ -59,16 +76,16 @@ public class YutGameController {
         gameService.moveTo(pieceId, place);
     }
 
-    private void groupingPieces(String movingPieceId, String place){
+    private void groupingPieces(String movingPieceId, String place) {
         List<GamePieces> groupablePieces = gameService.findGroupablePieces(place);
 
-        if(groupablePieces.isEmpty()){
+        if (groupablePieces.isEmpty()) {
             return;
         }
 
         GamePieces groupingPiece = viewInteface.readCatchingPiece(groupablePieces);
 
-        if(groupingPiece==null){
+        if (groupingPiece == null) {
             return;
         }
 
@@ -78,11 +95,11 @@ public class YutGameController {
     private void catchPieces(String place) {
         List<GamePieces> catchablePieces = gameService.findCatchablePieces(place);
 
-        if(catchablePieces.isEmpty()){
+        if (catchablePieces.isEmpty()) {
             return;
         }
 
-        if(catchablePieces.size()==1){
+        if (catchablePieces.size() == 1) {
             GamePieces catchablePiece = catchablePieces.get(0);
             gameService.catchPieces(catchablePiece.getId());
             return;
@@ -100,15 +117,33 @@ public class YutGameController {
             YutGenerationRequest request = viewInteface.readYutGenerationInfo();
             yutResult = gameService.generateYut(request.options(), request.yutResult());
             turnYutResults.add(yutResult);
-        } while (yutResult == YutResult.YUT || yutResult ==YutResult.MO);
+        } while (yutResult == YutResult.YUT || yutResult == YutResult.MO);
 
         return turnYutResults;
     }
 
     private YutResult chooseYutResult(List<YutResult> turnYutResults) {
-        if(turnYutResults.size()==1){
+        if (turnYutResults.size() == 1) {
             return turnYutResults.get(0);
         }
         return viewInteface.chooseYutResult(turnYutResults);
+    }
+
+    private void drawBoard() {
+        BoardType boardType = gameService.getBoardType();
+        List<NodeViewDto> nodeViewDtos = boardViewMapper.mapTo(boardType);
+        viewInteface.printBoard(nodeViewDtos);
+    }
+
+    private void askRestartOrExit() {
+        GameDecision gameDecision = viewInteface.readGameDecision();
+
+        if (gameDecision == GameDecision.EXIT) {
+            return;
+        }
+
+        if (gameDecision == GameDecision.RESTART) {
+            playGame();
+        }
     }
 }
