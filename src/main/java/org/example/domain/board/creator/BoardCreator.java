@@ -7,8 +7,8 @@ import org.example.domain.board.BoardType;
 public enum BoardCreator {
 
     SQUARE_CREATOR(BoardType.SQUARE, new SquareBoardCreator()),
-    PENTAGON_CREATOR(BoardType.SQUARE, new PentagonBoardCreator()),
-    HEXAGON_CREATOR(BoardType.SQUARE, new HexagonBoardCreator()),
+    PENTAGON_CREATOR(BoardType.PENTAGON, new PentagonBoardCreator()),
+    HEXAGON_CREATOR(BoardType.HEXAGON, new HexagonBoardCreator()),
     ;
 
     private final BoardType boardType;
