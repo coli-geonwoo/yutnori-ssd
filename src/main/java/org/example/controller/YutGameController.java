@@ -123,10 +123,14 @@ public class YutGameController {
     }
 
     private YutResult chooseYutResult(List<YutResult> turnYutResults) {
+        YutResult chosenResult;
         if (turnYutResults.size() == 1) {
-            return turnYutResults.get(0);
+            chosenResult = turnYutResults.get(0);
+        } else {
+            chosenResult = viewInterface.chooseYutResult(turnYutResults);
         }
-        return viewInterface.chooseYutResult(turnYutResults);
+        turnYutResults.remove(chosenResult);
+        return chosenResult;
     }
 
     private void drawBoard() {
