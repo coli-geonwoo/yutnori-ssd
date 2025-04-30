@@ -52,6 +52,10 @@ public class GamePieces {
         return pieces;
     }
 
+    public int getCount() {
+        return pieces.size();
+    }
+
     public String getPlace() {
         return place;
     }

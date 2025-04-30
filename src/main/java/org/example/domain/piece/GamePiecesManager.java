@@ -87,7 +87,7 @@ public class GamePiecesManager {
         gamePieces.get(place).add(piece);
     }
 
-    private GamePieces findById(String pieceId) {
+    public GamePieces findById(String pieceId) {
         return gamePieces.values().stream()
                 .flatMap(Collection::stream)
                 .filter(piece -> piece.isSame(pieceId))
