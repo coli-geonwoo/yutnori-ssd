@@ -16,13 +16,13 @@ import org.example.view.mapper.BoardViewMapper;
 public class YutGameController {
 
     private final BoardViewMapper boardViewMapper;
-    private final ViewInterface viewInteface;
+    private final ViewInterface viewInterface;
     private final GameService gameService;
 
-    public YutGameController(ViewInterface viewInteface) {
+    public YutGameController(ViewInterface viewInterface) {
         this.boardViewMapper = new BoardViewMapper();
-        this.viewInteface = viewInteface;
-        GameInitializeDto initializeDto = viewInteface.readInitializeInfo();
+        this.viewInterface = viewInterface;
+        GameInitializeDto initializeDto = viewInterface.readInitializeInfo();
         this.gameService = new GameService(
                 initializeDto.teamCount(),
                 initializeDto.pieceCount(),
@@ -46,7 +46,7 @@ public class YutGameController {
         }
 
         // 이긴 사람 보여주기
-        viewInteface.printWinner(gameService.getWinner());
+        viewInterface.printWinner(gameService.getWinner());
 
         // 다시할건지 그만할건지 재입력 받기
         askRestartOrExit();
@@ -55,11 +55,11 @@ public class YutGameController {
     private void playTurn(YutResult yutResult) {
         //움직일 말 선택
         List<GamePieces> pieces = gameService.findAllPieces();
-        GamePieces chosenPiece = viewInteface.readMovingPiece(pieces);
+        GamePieces chosenPiece = viewInterface.readMovingPiece(pieces);
 
         //이동할 칸 선택
         List<String> movablePlaces = gameService.findMovablePlaces(chosenPiece.getPlace(), yutResult);
-        String movingPlace = viewInteface.chooseMovingPlace(movablePlaces);
+        String movingPlace = viewInterface.chooseMovingPlace(movablePlaces);
 
         //말 잡기 > 업기 > 이동
         movePiece(chosenPiece.getId(), movingPlace);
@@ -83,7 +83,7 @@ public class YutGameController {
             return;
         }
 
-        GamePieces groupingPiece = viewInteface.readCatchingPiece(groupablePieces);
+        GamePieces groupingPiece = viewInterface.readCatchingPiece(groupablePieces);
 
         if (groupingPiece == null) {
             return;
@@ -105,7 +105,7 @@ public class YutGameController {
             return;
         }
 
-        GamePieces catchingPiece = viewInteface.readCatchingPiece(catchablePieces);
+        GamePieces catchingPiece = viewInterface.readCatchingPiece(catchablePieces);
         gameService.catchPieces(catchingPiece.getId());
     }
 
@@ -114,7 +114,7 @@ public class YutGameController {
         List<YutResult> turnYutResults = new ArrayList<>();
 
         do {
-            YutGenerationRequest request = viewInteface.readYutGenerationInfo();
+            YutGenerationRequest request = viewInterface.readYutGenerationInfo();
             yutResult = gameService.generateYut(request.options(), request.yutResult());
             turnYutResults.add(yutResult);
         } while (yutResult == YutResult.YUT || yutResult == YutResult.MO);
@@ -126,17 +126,17 @@ public class YutGameController {
         if (turnYutResults.size() == 1) {
             return turnYutResults.get(0);
         }
-        return viewInteface.chooseYutResult(turnYutResults);
+        return viewInterface.chooseYutResult(turnYutResults);
     }
 
     private void drawBoard() {
         BoardType boardType = gameService.getBoardType();
         List<NodeViewDto> nodeViewDtos = boardViewMapper.mapTo(boardType);
-        viewInteface.printBoard(nodeViewDtos);
+        viewInterface.printBoard(nodeViewDtos);
     }
 
     private void askRestartOrExit() {
-        GameDecision gameDecision = viewInteface.readGameDecision();
+        GameDecision gameDecision = viewInterface.readGameDecision();
 
         if (gameDecision == GameDecision.EXIT) {
             return;
