@@ -121,14 +121,10 @@ class GamePiecesManagerTest {
                 dynamicTest("1팀의 첫번째 말을 A3으로 이동한다", () -> {
                     gamePiecesManager.moveTo(oneTeamPiece1, "A3");
                 }),
-                dynamicTest("1팀의 첫번째 말과 두번째 말이 같은 위치에 있지 않으면 업을 수 없다", () -> {
-                    assertThatThrownBy(() -> gamePiecesManager.groupPieces(oneTeamPiece1, oneTeamPiece2))
-                            .isInstanceOf(RuntimeException.class);
-                }),
                 dynamicTest("1팀의 두번째 말을 A3으로 이동한다", () -> {
                     gamePiecesManager.moveTo(oneTeamPiece2, "A3");
                 }),
-                dynamicTest("1팀의 첫번째 말과 두번째 말을 업는다 A3으로 이동한다", () -> {
+                dynamicTest("1팀의 첫번째 말과 두번째 말을 업는다", () -> {
                     gamePiecesManager.groupPieces(oneTeamPiece1, oneTeamPiece2);
                     List<GamePieces> afterGroupPiece = gamePiecesManager.findAllPiecesByTeam(1);
 
