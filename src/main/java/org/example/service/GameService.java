@@ -1,6 +1,9 @@
 package org.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import org.example.domain.board.BoardType;
 import org.example.domain.game.ScoreBoard;
 import org.example.domain.game.Turn;
@@ -9,6 +12,7 @@ import org.example.domain.yut.RandomYutGenerateStrategy;
 import org.example.domain.yut.YutGenerateOptions;
 import org.example.domain.yut.YutGenerator;
 import org.example.domain.yut.YutResult;
+import org.example.dto.YutGenerationRequest;
 
 public class GameService {
 
@@ -26,8 +30,17 @@ public class GameService {
         this.boardService = new BoardService(teamCount, pieceCount, boardType);
     }
 
-    public YutResult generateYut(YutGenerateOptions options, YutResult yutResult) {
-        return yutGenerator.generate(options, yutResult);
+    public List<YutResult> makeTurnYutResults(Supplier<YutGenerationRequest> readYutGenerationInfo) {
+        YutResult yutResult;
+        List<YutResult> turnYutResults = new ArrayList<>();
+
+        do {
+            YutGenerationRequest request = readYutGenerationInfo.get();
+            yutResult = yutGenerator.generate(request.options(), request.yutResult());
+            turnYutResults.add(yutResult);
+        } while (yutResult == YutResult.YUT || yutResult == YutResult.MO);
+
+        return turnYutResults;
     }
 
     public List<GamePieces> findAllPieces() {
@@ -38,20 +51,36 @@ public class GameService {
         return boardService.findMovablePlaces(from, yutResult);
     }
 
-    public List<GamePieces> findCatchablePieces(String place) {
-        return boardService.findCatchablePieces(place, turn.getTurn());
+    public void catchPieces(String place, Function<List<GamePieces>, GamePieces> readCatchingPiece) {
+        List<GamePieces> catchablePieces = boardService.findCatchablePieces(place, turn.getTurn());
+
+        if (catchablePieces.isEmpty()) {
+            return;
+        }
+
+        if (catchablePieces.size() == 1) {
+            GamePieces catchablePiece = catchablePieces.get(0);
+            boardService.catchPieces(catchablePiece.getId());
+            return;
+        }
+
+        GamePieces catchingPiece = readCatchingPiece.apply(catchablePieces);
+        boardService.catchPieces(catchingPiece.getId());
     }
 
-    public List<GamePieces> findGroupablePieces(String place) {
-        return boardService.findGroupablePieces(place, turn.getTurn());
-    }
+    public void groupingPieces(String movingPieceId, String place, Function<List<GamePieces>, GamePieces> readGroupingPiece) {
+        List<GamePieces> groupablePieces = boardService.findGroupablePieces(place, turn.getTurn());
 
-    public void catchPieces(String piecesId) {
-        boardService.catchPieces(piecesId);
-    }
+        if (groupablePieces.isEmpty()) {
+            return;
+        }
 
-    public GamePieces groupPieces(String piecesId1, String piecesId2) {
-        return boardService.groupPieces(piecesId1, piecesId2);
+        GamePieces groupingPiece = readGroupingPiece.apply(groupablePieces);
+
+        if (groupingPiece == null) {
+            return;
+        }
+        boardService.groupPieces(movingPieceId, groupingPiece.getId());
     }
 
     public void moveTo(String pieceId, String place) {

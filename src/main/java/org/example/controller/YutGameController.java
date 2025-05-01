@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.example.domain.board.BoardType;
 import org.example.domain.game.GameDecision;
@@ -8,9 +7,8 @@ import org.example.domain.piece.GamePieces;
 import org.example.domain.yut.YutResult;
 import org.example.dto.GameInitializeDto;
 import org.example.dto.NodeViewDto;
-import org.example.dto.YutGenerationRequest;
 import org.example.service.GameService;
-import org.example.view.ViewInterface;
+import org.example.view.impl.ViewInterface;
 import org.example.view.mapper.BoardViewMapper;
 
 public class YutGameController {
@@ -35,7 +33,7 @@ public class YutGameController {
         drawBoard();
 
         while (!gameService.isEndGame()) {
-            List<YutResult> turnYutResults = readTurnYutResults();
+            List<YutResult> turnYutResults = gameService.makeTurnYutResults(viewInterface::readYutGenerationInfo);
 
             while (!turnYutResults.isEmpty()) {
                 YutResult yutResult = chooseYutResult(turnYutResults);
@@ -67,68 +65,17 @@ public class YutGameController {
 
     private void movePiece(String pieceId, String place) {
         // 잡을 수 있는 것 있으면 잡기
-        catchPieces(place);
+        gameService.catchPieces(place, viewInterface::readCatchingPiece);
 
         // 업을 수 있는 것 있으면 업기
-        groupingPieces(pieceId, place);
+        gameService.groupingPieces(pieceId, place, viewInterface::readGroupingPiece);
 
         // 장소 이동
         gameService.moveTo(pieceId, place);
     }
 
-    private void groupingPieces(String movingPieceId, String place) {
-        List<GamePieces> groupablePieces = gameService.findGroupablePieces(place);
-
-        if (groupablePieces.isEmpty()) {
-            return;
-        }
-
-        GamePieces groupingPiece = viewInterface.readCatchingPiece(groupablePieces);
-
-        if (groupingPiece == null) {
-            return;
-        }
-
-        gameService.groupPieces(movingPieceId, groupingPiece.getId());
-    }
-
-    private void catchPieces(String place) {
-        List<GamePieces> catchablePieces = gameService.findCatchablePieces(place);
-
-        if (catchablePieces.isEmpty()) {
-            return;
-        }
-
-        if (catchablePieces.size() == 1) {
-            GamePieces catchablePiece = catchablePieces.get(0);
-            gameService.catchPieces(catchablePiece.getId());
-            return;
-        }
-
-        GamePieces catchingPiece = viewInterface.readCatchingPiece(catchablePieces);
-        gameService.catchPieces(catchingPiece.getId());
-    }
-
-    private List<YutResult> readTurnYutResults() {
-        YutResult yutResult;
-        List<YutResult> turnYutResults = new ArrayList<>();
-
-        do {
-            YutGenerationRequest request = viewInterface.readYutGenerationInfo();
-            yutResult = gameService.generateYut(request.options(), request.yutResult());
-            turnYutResults.add(yutResult);
-        } while (yutResult == YutResult.YUT || yutResult == YutResult.MO);
-
-        return turnYutResults;
-    }
-
     private YutResult chooseYutResult(List<YutResult> turnYutResults) {
-        YutResult chosenResult;
-        if (turnYutResults.size() == 1) {
-            chosenResult = turnYutResults.get(0);
-        } else {
-            chosenResult = viewInterface.chooseYutResult(turnYutResults);
-        }
+        YutResult chosenResult = viewInterface.chooseYutResult(turnYutResults);
         turnYutResults.remove(chosenResult);
         return chosenResult;
     }

@@ -1,4 +1,4 @@
-package org.example.view;
+package org.example.view.impl;
 
 import java.util.List;
 import org.example.domain.game.GameDecision;
