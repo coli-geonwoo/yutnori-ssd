@@ -30,12 +30,12 @@ public class GameService {
         this.boardService = new BoardService(teamCount, pieceCount, boardType);
     }
 
-    public List<YutResult> makeTurnYutResults(Supplier<YutGenerationRequest> readYutGenerationInfo) {
+    public List<YutResult> makeTurnYutResults(Function<Integer, YutGenerationRequest> readYutGenerationInfo) {
         YutResult yutResult;
         List<YutResult> turnYutResults = new ArrayList<>();
 
         do {
-            YutGenerationRequest request = readYutGenerationInfo.get();
+            YutGenerationRequest request = readYutGenerationInfo.apply(turn.getTurn());
             yutResult = yutGenerator.generate(request.options(), request.yutResult());
             turnYutResults.add(yutResult);
         } while (yutResult == YutResult.YUT || yutResult == YutResult.MO);

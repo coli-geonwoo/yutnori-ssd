@@ -14,7 +14,7 @@ public interface ViewInterface {
     GameInitializeDto readInitializeInfo();
 
     //윷 던지기 요청 정보 읽기 (옵션 / 지정 윷의 경우, 윷 정보)
-    YutGenerationRequest readYutGenerationInfo();
+    YutGenerationRequest readYutGenerationInfo(int team);
 
     //나의 말 중에 어떤 걸 이동시킬 것인지 gamePieces 반환
     GamePieces readMovingPiece(List<GamePieces> myGamePieces);

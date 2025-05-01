@@ -17,4 +17,8 @@ public class GamePiece {
             throw new RuntimeException("게임 말 번호가 잘못되었습니다.");
         }
     }
+
+    public int getPieceNumber() {
+        return pieceNumber;
+    }
 }
