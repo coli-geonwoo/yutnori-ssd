@@ -32,14 +32,14 @@ public class GamePiecesManager {
     }
 
     public List<GamePieces> findCatchablePieces(String place, int team) {
-        List<GamePieces> piecesOnPlace = gamePieces.get(place);
+        List<GamePieces> piecesOnPlace = gamePieces.getOrDefault(place, new ArrayList<>());
         return piecesOnPlace.stream()
                 .filter(pieces -> !pieces.isSameTeam(team))
                 .toList();
     }
 
     public List<GamePieces> findGroupablePieces(String place, int team) {
-        List<GamePieces> piecesOnPlace = gamePieces.get(place);
+        List<GamePieces> piecesOnPlace = gamePieces.getOrDefault(place, new ArrayList<>());
         return piecesOnPlace.stream()
                 .filter(pieces -> pieces.isSameTeam(team))
                 .toList();

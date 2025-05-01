@@ -84,7 +84,7 @@ public class GameService {
     }
 
     public void moveTo(String pieceId, String place) {
-        if (place.equals("END")) {
+        if (place.equals("end")) {
             GamePieces gamePieces = boardService.findPieces(pieceId);
             scoreBoard.score(turn.getTurn(), gamePieces.getCount());
         }

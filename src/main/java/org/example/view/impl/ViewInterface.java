@@ -40,4 +40,10 @@ public interface ViewInterface {
 
     //이긴 사람 보여주기
     void printWinner(int winnerNumber);
+
+    //잡았다는 메시지
+    void printCatchMessage();
+
+    //업었다는 메시지
+    void printGroupMessage();
 }

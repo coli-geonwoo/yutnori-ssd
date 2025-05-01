@@ -132,15 +132,25 @@ public class ConsoleImpl implements ViewInterface {
         System.out.println(winnerNumber + "팀이 승리하셨습니다!");
     }
 
-    private void printGamePiece(int num, GamePieces gamePiece) {
+    //잡았다는 메시지
+    public void printCatchMessage() {
+        System.out.println("상대 말을 잡았습니다");
+    }
+
+    //업었다는 메시지
+    public void printGroupMessage() {
+        System.out.println("나의 말을 업었습니다");
+    }
+
+    private void printGamePiece(GamePieces gamePiece) {
         List<GamePiece> pieces = gamePiece.getPieces();
         int team = gamePiece.getTeam();
 
-        System.out.print(team + "팀 -" + num + " : ");
+        System.out.print(team+ "팀 - ");
         for (GamePiece piece : pieces) {
             System.out.print(piece.getPieceNumber() + " ");
         }
-        System.out.println();
+        System.out.println("번 말");
     }
 
     private String readInput() {
