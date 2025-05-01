@@ -2,6 +2,7 @@ package org.example.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.example.domain.board.BoardType;
@@ -51,36 +52,38 @@ public class GameService {
         return boardService.findMovablePlaces(from, yutResult);
     }
 
-    public void catchPieces(String place, Function<List<GamePieces>, GamePieces> readCatchingPiece) {
+    public Optional<GamePieces>  catchPieces(String place, Function<List<GamePieces>, GamePieces> readCatchingPiece) {
         List<GamePieces> catchablePieces = boardService.findCatchablePieces(place, turn.getTurn());
 
         if (catchablePieces.isEmpty()) {
-            return;
+            return Optional.empty();
         }
 
         if (catchablePieces.size() == 1) {
             GamePieces catchablePiece = catchablePieces.get(0);
             boardService.catchPieces(catchablePiece.getId());
-            return;
+            return Optional.of(catchablePiece);
         }
 
         GamePieces catchingPiece = readCatchingPiece.apply(catchablePieces);
         boardService.catchPieces(catchingPiece.getId());
+        return Optional.of(catchingPiece);
     }
 
-    public void groupingPieces(String movingPieceId, String place, Function<List<GamePieces>, GamePieces> readGroupingPiece) {
+    public Optional<GamePieces> groupingPieces(String movingPieceId, String place, Function<List<GamePieces>, GamePieces> readGroupingPiece) {
         List<GamePieces> groupablePieces = boardService.findGroupablePieces(place, turn.getTurn());
 
         if (groupablePieces.isEmpty()) {
-            return;
+            return Optional.empty();
         }
 
         GamePieces groupingPiece = readGroupingPiece.apply(groupablePieces);
 
         if (groupingPiece == null) {
-            return;
+            return Optional.empty();
         }
         boardService.groupPieces(movingPieceId, groupingPiece.getId());
+        return Optional.of(groupingPiece);
     }
 
     public void moveTo(String pieceId, String place) {

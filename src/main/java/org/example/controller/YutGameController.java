@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import java.util.List;
+import java.util.Optional;
 import org.example.domain.board.BoardType;
 import org.example.domain.game.GameDecision;
 import org.example.domain.piece.GamePieces;
@@ -65,10 +66,16 @@ public class YutGameController {
 
     private void movePiece(String pieceId, String place) {
         // 잡을 수 있는 것 있으면 잡기
-        gameService.catchPieces(place, viewInterface::readCatchingPiece);
+        Optional<GamePieces> catchingPiece = gameService.catchPieces(place, viewInterface::readCatchingPiece);
+        if (catchingPiece.isPresent()) {
+            viewInterface.printCatchMessage();
+        }
 
         // 업을 수 있는 것 있으면 업기
-        gameService.groupingPieces(pieceId, place, viewInterface::readGroupingPiece);
+        Optional<GamePieces> groupingPiece = gameService.groupingPieces(pieceId, place, viewInterface::readGroupingPiece);
+        if (groupingPiece.isPresent()) {
+            viewInterface.printGroupMessage();
+        }
 
         // 장소 이동
         gameService.moveTo(pieceId, place);

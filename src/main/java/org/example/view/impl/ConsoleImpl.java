@@ -56,7 +56,8 @@ public class ConsoleImpl implements ViewInterface {
     public GamePieces readMovingPiece(List<GamePieces> myGamePieces) {
         System.out.println("어떤 말을 이동하시겠습니까? ex) 0, 1 등 숫자 입력");
         for (int i = 0; i < myGamePieces.size(); i++) {
-            printGamePiece(i, myGamePieces.get(i));
+            System.out.print(i + ": ");
+            printGamePiece(myGamePieces.get(i));
         }
 
         int chosenNumber = Integer.parseInt(readInput());
@@ -89,7 +90,8 @@ public class ConsoleImpl implements ViewInterface {
     public GamePieces readCatchingPiece(List<GamePieces> catchAblePieces) {
         System.out.println("어떤 말을 잡으시겠습니까? ex) 0, 1 등 숫자 입력");
         for (int i = 0; i < catchAblePieces.size(); i++) {
-            printGamePiece(i, catchAblePieces.get(i));
+            System.out.print(i + ": ");
+            printGamePiece(catchAblePieces.get(i));
         }
         int catchingPiece = Integer.parseInt(readInput());
         return catchAblePieces.get(catchingPiece);
@@ -100,7 +102,8 @@ public class ConsoleImpl implements ViewInterface {
     public GamePieces readGroupingPiece(List<GamePieces> groupAblePieces) {
         System.out.println("어떤 말을 업으시겠습니까? ex) 0, 1 등 숫자 입력");
         for (int i = 0; i < groupAblePieces.size(); i++) {
-            printGamePiece(i, groupAblePieces.get(i));
+            System.out.print(i + ": ");
+            printGamePiece(groupAblePieces.get(i));
         }
         System.out.println(groupAblePieces.size() + " : 업지 않기");
         int groupAblePiece = Integer.parseInt(readInput());
