@@ -80,6 +80,7 @@ public class YutGameController {
         return chosenResult;
     }
 
+    //나중에 뷰로 옮기기
     private void drawBoard() {
         BoardType boardType = gameService.getBoardType();
         List<NodeViewDto> nodeViewDtos = boardViewMapper.mapTo(boardType);
