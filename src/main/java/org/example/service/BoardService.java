@@ -1,30 +1,23 @@
 package org.example.service;
 
 import java.util.List;
-import org.example.domain.board.Node;
 import org.example.domain.board.Board;
+import org.example.domain.board.BoardType;
+import org.example.domain.board.Node;
+import org.example.domain.board.creator.BoardCreator;
 import org.example.domain.piece.GamePieceInitializer;
 import org.example.domain.piece.GamePieces;
 import org.example.domain.piece.GamePiecesManager;
-import org.example.domain.yut.RandomYutGenerateStrategy;
-import org.example.domain.yut.YutGenerateOptions;
-import org.example.domain.yut.YutGenerator;
 import org.example.domain.yut.YutResult;
 
-public class YutGameService {
+public class BoardService {
 
-    private final YutGenerator yutGenerator;
     private final Board board;
     private final GamePiecesManager gamePiecesManager;
 
-    public YutGameService(int teamCount, int pieceCount, Board board) {
-        this.yutGenerator = new YutGenerator(new RandomYutGenerateStrategy());
+    public BoardService(int teamCount, int pieceCount, BoardType boardType) {
         this.gamePiecesManager = new GamePiecesManager(new GamePieceInitializer(), teamCount, pieceCount);
-        this.board = board;
-    }
-
-    public YutResult generateYut(YutGenerateOptions options, YutResult yutResult) {
-        return yutGenerator.generate(options, yutResult);
+        this.board = BoardCreator.create(boardType);
     }
 
     public List<GamePieces> findAllPiecesByTeam(int team) {
@@ -43,6 +36,10 @@ public class YutGameService {
 
     public List<GamePieces> findGroupablePieces(String place, int team) {
         return gamePiecesManager.findGroupablePieces(place, team);
+    }
+
+    public GamePieces findPieces(String piecesId) {
+        return gamePiecesManager.findById(piecesId);
     }
 
     public void catchPieces(String piecesId) {

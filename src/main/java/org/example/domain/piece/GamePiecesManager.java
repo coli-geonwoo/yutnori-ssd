@@ -32,14 +32,14 @@ public class GamePiecesManager {
     }
 
     public List<GamePieces> findCatchablePieces(String place, int team) {
-        List<GamePieces> piecesOnPlace = gamePieces.get(place);
+        List<GamePieces> piecesOnPlace = gamePieces.getOrDefault(place, new ArrayList<>());
         return piecesOnPlace.stream()
                 .filter(pieces -> !pieces.isSameTeam(team))
                 .toList();
     }
 
     public List<GamePieces> findGroupablePieces(String place, int team) {
-        List<GamePieces> piecesOnPlace = gamePieces.get(place);
+        List<GamePieces> piecesOnPlace = gamePieces.getOrDefault(place, new ArrayList<>());
         return piecesOnPlace.stream()
                 .filter(pieces -> pieces.isSameTeam(team))
                 .toList();
@@ -63,18 +63,14 @@ public class GamePiecesManager {
         startPointPieces.add(restartPieces);
     }
 
-    public GamePieces groupPieces(String pieceId1, String pieceId2) {
-        GamePieces piece1 = findById(pieceId1);
-        GamePieces piece2 = findById(pieceId2);
+    public GamePieces groupPieces(String movingPieceId, String groupingPieceId) {
+        GamePieces movingPiece = findById(movingPieceId);
+        GamePieces groupingPiece = findById(groupingPieceId);
 
-        if (!piece1.onSamePlace(piece2)) {
-            throw new RuntimeException("같은 위치에 있지 않습니다");
-        }
-
-        piece2.groupWith(piece1);
-        gamePieces.get(piece1.getPlace())
-                .remove(piece1);
-        return piece2;
+        movingPiece.groupWith(groupingPiece);
+        gamePieces.get(groupingPiece.getPlace())
+                .remove(groupingPiece);
+        return movingPiece;
     }
 
     public void moveTo(String pieceId, String place) {
@@ -87,7 +83,7 @@ public class GamePiecesManager {
         gamePieces.get(place).add(piece);
     }
 
-    private GamePieces findById(String pieceId) {
+    public GamePieces findById(String pieceId) {
         return gamePieces.values().stream()
                 .flatMap(Collection::stream)
                 .filter(piece -> piece.isSame(pieceId))
