@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import org.example.domain.board.BoardType;
 import org.example.domain.game.ScoreBoard;
 import org.example.domain.game.Turn;
 import org.example.domain.piece.GamePieces;
 import org.example.domain.yut.RandomYutGenerateStrategy;
-import org.example.domain.yut.YutGenerateOptions;
 import org.example.domain.yut.YutGenerator;
 import org.example.domain.yut.YutResult;
 import org.example.dto.YutGenerationRequest;
@@ -52,7 +50,7 @@ public class GameService {
         return boardService.findMovablePlaces(from, yutResult);
     }
 
-    public Optional<GamePieces>  catchPieces(String place, Function<List<GamePieces>, GamePieces> readCatchingPiece) {
+    public Optional<GamePieces> catchPieces(String place, Function<List<GamePieces>, GamePieces> readCatchingPiece) {
         List<GamePieces> catchablePieces = boardService.findCatchablePieces(place, turn.getTurn());
 
         if (catchablePieces.isEmpty()) {
@@ -70,7 +68,8 @@ public class GameService {
         return Optional.of(catchingPiece);
     }
 
-    public Optional<GamePieces> groupingPieces(String movingPieceId, String place, Function<List<GamePieces>, GamePieces> readGroupingPiece) {
+    public Optional<GamePieces> groupingPieces(String movingPieceId, String place,
+                                               Function<List<GamePieces>, GamePieces> readGroupingPiece) {
         List<GamePieces> groupablePieces = boardService.findGroupablePieces(place, turn.getTurn());
 
         if (groupablePieces.isEmpty()) {

@@ -25,10 +25,10 @@ public interface ViewInterface {
     // 이동가능한 칸 중에 어디로 이동할 것인지 -> place 이름 반환
     String chooseMovingPlace(List<String> movablePlaces);
 
-    //여러개의 잡을 수 있는 말 중에 잡을 말 고르기 -> 잡을 말의 PieceId반환
+    //여러개의 잡을 수 있는 말 중에 잡을 말 고르기 -> 잡을 말의 반환
     GamePieces readCatchingPiece(List<GamePieces> catchAblePieces);
 
-    // 여러개의 업을 수 있는 말 중에 업을 말 고르기 -> 업을 말의 PieceId반환
+    // 여러개의 업을 수 있는 말 중에 업을 말 고르기 -> 업을 말 Piece반환
     // 업지 않는 선택을 했다면 null 반환
     GamePieces readGroupingPiece(List<GamePieces> catchAblePieces);
 
