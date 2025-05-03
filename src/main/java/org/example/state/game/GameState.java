@@ -8,9 +8,11 @@ import org.example.state.game.event.GameStartEvent;
 public abstract class GameState {
 
   protected GameStateContext context;
+  protected GameStateMachine machine;
 
-  public GameState(GameStateContext context) {
+  public GameState(GameStateContext context, GameStateMachine machine) {
     this.context = context;
+    this.machine = machine;
   }
 
   public void handleEvent(GameExitEvent event) {

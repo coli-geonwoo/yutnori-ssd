@@ -4,14 +4,14 @@ import org.example.state.game.event.GameOverEvent;
 
 public class GameInProgressState extends GameState {
 
-  public GameInProgressState(GameStateContext context) {
-    super(context);
+  public GameInProgressState(GameStateContext context, GameStateMachine machine) {
+    super(context, machine);
   }
 
   @Override
   public void handleEvent(GameOverEvent event) {
     // Transition to the GameEndState
-    context.setCurrentState(new GameEndState(context));
+    machine.setCurrentState(new GameEndState(context, machine));
   }
 
 }

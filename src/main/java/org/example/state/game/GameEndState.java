@@ -2,7 +2,7 @@ package org.example.state.game;
 
 public class GameEndState extends GameState {
 
-  GameEndState(GameStateContext context) {
-    super(context);
+  GameEndState(GameStateContext context, GameStateMachine machine) {
+    super(context, machine);
   }
 }

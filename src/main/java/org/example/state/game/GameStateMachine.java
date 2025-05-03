@@ -1,7 +1,8 @@
 package org.example.state.game;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.example.service.GameService;
-import org.example.state.game.event.GameEvent;
 import org.example.state.turn.TurnStateMachine;
 
 public class GameStateMachine {
@@ -10,11 +11,13 @@ public class GameStateMachine {
   private GameState currentState;
   private GameService gameService;
 
+  private List<GameStateObserver> observers = new ArrayList<>();
+
   private TurnStateMachine turnStateMachine;
 
   public GameStateMachine(GameService gameService) {
     this.context = new GameStateContext();
-    this.currentState = new GameIdleState(context);
+    this.currentState = new GameIdleState(context, this);
     this.gameService = gameService;
 
     this.turnStateMachine = new TurnStateMachine();
@@ -26,10 +29,20 @@ public class GameStateMachine {
 
   public void setCurrentState(GameState state) {
     this.currentState = state;
+    notifyObservers();
   }
 
-  public void handleEvent(GameEvent event) {
-    currentState.handleEvent(event);
+  public void observe(GameStateObserver observer) {
+    observers.add(observer);
   }
 
+  public void unobserve(GameStateObserver observer) {
+    observers.remove(observer);
+  }
+
+  public void notifyObservers() {
+    for (GameStateObserver observer : observers) {
+      observer.onGameStateChanged();
+    }
+  }
 }
