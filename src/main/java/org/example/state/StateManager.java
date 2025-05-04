@@ -28,7 +28,7 @@ public class StateManager<TState extends State, TStateObserver extends StateObse
 
   public void notifyObservers(TState state) {
     for (TStateObserver observer : observers) {
-      observer.onGameStateChanged(state);
+      observer.onStateChanged(state);
     }
   }
 }
