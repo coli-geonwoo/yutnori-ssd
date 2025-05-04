@@ -4,14 +4,14 @@ import org.example.state.turn.event.TurnGenerateYutEvent;
 
 public class TurnIdleState extends TurnState {
 
-  public TurnIdleState(TurnStateContext context, TurnStateMachine machine) {
-    super(context, machine);
+  public TurnIdleState(TurnStateContext context, TurnStateManager stateManager) {
+    super(context, stateManager);
   }
 
   @Override
   public void handleEvent(TurnGenerateYutEvent event) {
     // Transition to the TurnYutGeneratedState
-    context.setCurrentState(new TurnYutGeneratedState(context, machine));
+    stateManager.setCurrentState(new TurnYutGeneratedState(context, stateManager));
   }
 
 }

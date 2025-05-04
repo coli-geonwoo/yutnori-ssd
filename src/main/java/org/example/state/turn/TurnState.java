@@ -1,19 +1,17 @@
 package org.example.state.turn;
 
+import org.example.state.State;
+import org.example.state.turn.event.TurnEvent;
 import org.example.state.turn.event.TurnGenerateYutEvent;
 import org.example.state.turn.event.TurnKillOtherEvent;
 import org.example.state.turn.event.TurnMovePieceEvent;
 import org.example.state.turn.event.TurnNextTurnEvent;
 import org.example.state.turn.event.TurnTakeMyPiecesEvent;
 
-public abstract class TurnState {
+public abstract class TurnState extends State<TurnStateContext, TurnStateManager, TurnEvent> {
 
-  protected TurnStateContext context;
-  protected TurnStateMachine machine;
-
-  public TurnState(TurnStateContext context, TurnStateMachine machine) {
-    this.context = context;
-    this.machine = machine;
+  public TurnState(TurnStateContext context, TurnStateManager stateManager) {
+    super(context, stateManager);
   }
 
   public void handleEvent(TurnGenerateYutEvent event) {

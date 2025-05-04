@@ -26,7 +26,6 @@ public class ConsoleView {
   private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
   ConsoleView() {
-
     GameInitializeDto gameInitializeDto = initialize();
 
     gameService = new GameService(gameInitializeDto.teamCount(),
@@ -34,7 +33,6 @@ public class ConsoleView {
 
     turnStateMachine = new TurnStateMachine();
     gameStateMachine = new GameStateMachine(gameService);
-
   }
 
   //팀 개수, 말개수, 보드 유형 받기

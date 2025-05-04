@@ -1,39 +1,16 @@
 package org.example.state.turn;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.example.state.StateMachine;
+import org.example.state.turn.event.TurnEvent;
 
-public class TurnStateMachine {
+public class TurnStateMachine extends
+    StateMachine<TurnState, TurnStateContext, TurnStateObserver, TurnStateManager, TurnEvent> {
 
-  private TurnState currentState;
+  private TurnStateManager stateManager;
   private TurnStateContext context;
-
-  private List<TurnStateObserver> observers = new ArrayList<>();
 
   public TurnStateMachine() {
     this.context = new TurnStateContext();
-    this.currentState = new TurnIdleState(context, this);
-  }
-
-  public TurnState getCurrentState() {
-    return currentState;
-  }
-
-  public void setCurrentState(TurnState state) {
-    this.currentState = state;
-  }
-
-  public void observe(TurnStateObserver observer) {
-    observers.add(observer);
-  }
-
-  public void unobserve(TurnStateObserver observer) {
-    observers.remove(observer);
-  }
-
-  public void notifyObservers() {
-    for (TurnStateObserver observer : observers) {
-      observer.onGameStateChanged();
-    }
+    this.stateManager = new TurnStateManager(context);
   }
 }

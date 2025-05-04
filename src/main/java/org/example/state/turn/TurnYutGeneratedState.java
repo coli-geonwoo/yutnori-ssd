@@ -4,13 +4,13 @@ import org.example.state.turn.event.TurnMovePieceEvent;
 
 public class TurnYutGeneratedState extends TurnState {
 
-  public TurnYutGeneratedState(TurnStateContext context, TurnStateMachine machine) {
-    super(context, machine);
+  public TurnYutGeneratedState(TurnStateContext context, TurnStateManager stateManager) {
+    super(context, stateManager);
   }
 
   @Override
   public void handleEvent(TurnMovePieceEvent event) {
     // Transition to the TurnMovedPieceState
-    context.setCurrentState(new TurnMovedPieceState(context));
+    stateManager.setCurrentState(new TurnMovedPieceState(context, stateManager));
   }
 }

@@ -5,14 +5,14 @@ import org.example.state.game.event.GameRestartEvent;
 
 public class GameOverState extends GameState {
 
-  public GameOverState(GameStateContext context, GameStateMachine machine) {
-    super(context, machine);
+  public GameOverState(GameStateContext context, GameStateManager stateManager) {
+    super(context, stateManager);
   }
 
   @Override
   public void handleEvent(GameRestartEvent event) {
     // Transition to the GameIdleState
-    machine.setCurrentState(new GameIdleState(context, machine));
+    stateManager.setCurrentState(new GameIdleState(context, stateManager));
   }
 
   @Override

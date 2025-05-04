@@ -4,13 +4,13 @@ import org.example.state.game.event.GameStartEvent;
 
 public class GameIdleState extends GameState {
 
-  GameIdleState(GameStateContext context, GameStateMachine machine) {
-    super(context, machine);
+  GameIdleState(GameStateContext context, GameStateManager stateManager) {
+    super(context, stateManager);
   }
 
   @Override
   public void handleEvent(GameStartEvent event) {
     // Transition to the GameStartState
-    machine.setCurrentState(new GameInProgressState(context, machine));
+    stateManager.setCurrentState(new GameInProgressState(context, stateManager));
   }
 }

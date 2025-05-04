@@ -1,7 +1,8 @@
 package org.example.state.game;
 
-public interface GameStateObserver {
+import org.example.state.StateObserver;
 
-  void onGameStateChanged();
+public interface GameStateObserver extends StateObserver<GameState> {
 
+  void onGameStateChanged(GameState state);
 }

@@ -1,6 +1,8 @@
 package org.example.state.turn;
 
-public interface TurnStateObserver {
+import org.example.state.StateObserver;
+
+public interface TurnStateObserver extends StateObserver<TurnState> {
 
   void onGameStateChanged();
 
