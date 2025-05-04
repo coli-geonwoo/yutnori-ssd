@@ -15,6 +15,7 @@ import org.example.dto.NodeViewDto;
 import org.example.dto.YutGenerationRequest;
 import org.example.service.GameService;
 import org.example.state.game.GameStateMachine;
+import org.example.state.game.event.GameStartEvent;
 import org.example.state.turn.TurnStateMachine;
 
 public class ConsoleView {
@@ -31,8 +32,15 @@ public class ConsoleView {
     gameService = new GameService(gameInitializeDto.teamCount(),
         gameInitializeDto.pieceCount(), gameInitializeDto.boardType());
 
-    turnStateMachine = new TurnStateMachine();
-    gameStateMachine = new GameStateMachine(gameService);
+    turnStateMachine = TurnStateMachine.create();
+    gameStateMachine = GameStateMachine.create(gameService);
+
+    System.out.println("[DEBUG] 게임 상태 머신이 초기화되었습니다.");
+    gameStateMachine.observe(state -> {
+      System.out.println("[DEBUG] 게임 상태가 변경되었습니다: " + state);
+    });
+
+    gameStateMachine.dispatchEvent(new GameStartEvent());
   }
 
   //팀 개수, 말개수, 보드 유형 받기

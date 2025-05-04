@@ -9,8 +9,13 @@ public class TurnStateMachine extends
   private TurnStateManager stateManager;
   private TurnStateContext context;
 
-  public TurnStateMachine() {
-    this.context = new TurnStateContext();
-    this.stateManager = new TurnStateManager(context);
+  public TurnStateMachine(TurnStateContext context, TurnStateManager stateManager) {
+    super(context, stateManager);
+  }
+
+  public static TurnStateMachine create() {
+    TurnStateContext context = new TurnStateContext();
+    TurnStateManager stateManager = new TurnStateManager(context);
+    return new TurnStateMachine(context, stateManager);
   }
 }

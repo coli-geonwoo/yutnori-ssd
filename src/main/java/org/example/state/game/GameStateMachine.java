@@ -11,9 +11,15 @@ public class GameStateMachine extends
   private GameStateManager stateManager;
   private GameService gameService;
 
-  public GameStateMachine(GameService gameService) {
-    this.context = new GameStateContext();
-    this.stateManager = new GameStateManager(context);
+  public GameStateMachine(GameStateContext context, GameStateManager stateManager,
+      GameService gameService) {
+    super(context, stateManager);
     this.gameService = gameService;
+  }
+
+  public static GameStateMachine create(GameService gameService) {
+    GameStateContext context = new GameStateContext();
+    GameStateManager stateManager = new GameStateManager(context);
+    return new GameStateMachine(context, stateManager, gameService);
   }
 }

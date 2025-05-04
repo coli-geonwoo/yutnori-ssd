@@ -1,17 +1,21 @@
 package org.example.state;
 
-import org.example.state.turn.event.TurnEvent;
-
-public class StateMachine<TState extends State, TContext, TStateObserver extends StateObserver<TState>, TStateManager extends StateManager<TState, TStateObserver>, TStateEvent extends StateEvent<TState>> {
+public abstract class StateMachine<TState extends State, TContext, TStateObserver extends StateObserver<TState>, TStateManager extends StateManager<TState, TStateObserver>, TStateEvent extends StateEvent<TState>> {
 
   private TContext context;
   private TStateManager stateManager;
+
+  public StateMachine(TContext context, TStateManager stateManager) {
+    this.context = context;
+    this.stateManager = stateManager;
+  }
 
   public TState getCurrentState() {
     return stateManager.getCurrentState();
   }
 
-  public void dispatchEvent(TurnEvent event) {
+  public void dispatchEvent(TStateEvent event) {
+    System.out.println("Dispatching event: " + event);
     getCurrentState().handleEvent(event);
   }
 

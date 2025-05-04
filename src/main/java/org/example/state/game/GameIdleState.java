@@ -11,6 +11,7 @@ public class GameIdleState extends GameState {
   @Override
   public void handleEvent(GameStartEvent event) {
     // Transition to the GameStartState
+    System.out.println("Transitioning to GameInProgressState");
     stateManager.setCurrentState(new GameInProgressState(context, stateManager));
   }
 }
