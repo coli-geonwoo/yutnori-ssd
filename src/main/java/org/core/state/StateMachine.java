@@ -2,7 +2,7 @@ package org.core.state;
 
 public abstract class StateMachine<TState extends State, TContext, TStateObserver extends StateObserver<TState>, TStateManager extends StateManager<TState, TStateObserver>, TStateEvent extends StateEvent<TState>> {
 
-  protected final TContext context;
+  public final TContext context;
   protected TStateManager stateManager;
 
   public StateMachine(TContext context, TStateManager stateManager) {

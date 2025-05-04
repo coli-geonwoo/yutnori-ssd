@@ -35,10 +35,12 @@ public class TurnStateContext {
     return yutResults;
   }
 
+  // shouldn't be used outside machine
   public void addYutResult(YutResult yutResult) {
     this.yutResults.add(yutResult);
   }
 
+  // shouldn't be used outside machine
   public void useYutResult(YutResult yutResult) {
     this.yutResults.remove(yutResult);
   }
