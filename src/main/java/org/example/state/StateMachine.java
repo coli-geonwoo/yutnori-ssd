@@ -15,7 +15,7 @@ public abstract class StateMachine<TState extends State, TContext, TStateObserve
   }
 
   public void dispatchEvent(TStateEvent event) {
-    System.out.println("Dispatching event: " + event);
+    System.out.println("[DEBUG] Dispatching event: " + event);
     getCurrentState().handleEvent(event);
   }
 
