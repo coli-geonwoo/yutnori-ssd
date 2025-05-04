@@ -3,7 +3,6 @@ package org.example.state.game;
 import java.util.ArrayList;
 import java.util.List;
 import org.example.service.GameService;
-import org.example.state.turn.TurnStateMachine;
 
 public class GameStateMachine {
 
@@ -13,14 +12,10 @@ public class GameStateMachine {
 
   private List<GameStateObserver> observers = new ArrayList<>();
 
-  private TurnStateMachine turnStateMachine;
-
   public GameStateMachine(GameService gameService) {
     this.context = new GameStateContext();
     this.currentState = new GameIdleState(context, this);
     this.gameService = gameService;
-
-    this.turnStateMachine = new TurnStateMachine();
   }
 
   public GameState getCurrentState() {

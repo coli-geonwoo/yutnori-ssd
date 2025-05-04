@@ -15,11 +15,13 @@ import org.example.dto.NodeViewDto;
 import org.example.dto.YutGenerationRequest;
 import org.example.service.GameService;
 import org.example.state.game.GameStateMachine;
+import org.example.state.turn.TurnStateMachine;
 
 public class ConsoleView {
 
   GameService gameService;
   GameStateMachine gameStateMachine;
+  TurnStateMachine turnStateMachine;
 
   private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -30,7 +32,9 @@ public class ConsoleView {
     gameService = new GameService(gameInitializeDto.teamCount(),
         gameInitializeDto.pieceCount(), gameInitializeDto.boardType());
 
+    turnStateMachine = new TurnStateMachine();
     gameStateMachine = new GameStateMachine(gameService);
+
   }
 
   //팀 개수, 말개수, 보드 유형 받기

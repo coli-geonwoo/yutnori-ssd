@@ -2,6 +2,7 @@ package org.example.state.turn;
 
 import org.example.state.turn.event.TurnKillOtherEvent;
 import org.example.state.turn.event.TurnNextTurnEvent;
+import org.example.state.turn.event.TurnTakeMyPiecesEvent;
 
 public class TurnMovedPieceState extends TurnState {
 
@@ -11,6 +12,12 @@ public class TurnMovedPieceState extends TurnState {
 
   @Override
   public void handleEvent(TurnKillOtherEvent event) {
+    // Transition to the TurnIdleState
+    context.setCurrentState(new TurnIdleState(context, machine));
+  }
+
+  @Override
+  public void handleEvent(TurnTakeMyPiecesEvent event) {
     // Transition to the TurnIdleState
     context.setCurrentState(new TurnIdleState(context, machine));
   }
