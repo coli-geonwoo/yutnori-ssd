@@ -13,13 +13,13 @@ public class TurnMovedPieceState extends TurnState {
   @Override
   public void handleEvent(TurnKillOtherEvent event) {
     // Transition to the TurnIdleState
-    stateManager.setCurrentState(new TurnIdleState(context, stateManager));
+    stateManager.setCurrentState(new TurnKilledOtherState(context, stateManager));
   }
 
   @Override
   public void handleEvent(TurnTakeMyPiecesEvent event) {
     // Transition to the TurnIdleState
-    stateManager.setCurrentState(new TurnIdleState(context, stateManager));
+    stateManager.setCurrentState(new TurnTookPieceState(context, stateManager));
   }
 
   @Override

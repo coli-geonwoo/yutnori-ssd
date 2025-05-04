@@ -6,6 +6,7 @@ import org.example.state.turn.event.TurnGenerateYutEvent;
 import org.example.state.turn.event.TurnKillOtherEvent;
 import org.example.state.turn.event.TurnMovePieceEvent;
 import org.example.state.turn.event.TurnNextTurnEvent;
+import org.example.state.turn.event.TurnRegenerateYutEvent;
 import org.example.state.turn.event.TurnTakeMyPiecesEvent;
 
 public abstract class TurnState extends State<TurnStateContext, TurnStateManager, TurnEvent> {
@@ -15,6 +16,9 @@ public abstract class TurnState extends State<TurnStateContext, TurnStateManager
   }
 
   public void handleEvent(TurnGenerateYutEvent event) {
+  }
+
+  public void handleEvent(TurnRegenerateYutEvent event) {
   }
 
   public void handleEvent(TurnKillOtherEvent event) {
