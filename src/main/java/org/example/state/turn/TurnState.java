@@ -8,9 +8,11 @@ import org.example.state.turn.event.TurnNextTurnEvent;
 public abstract class TurnState {
 
   protected TurnStateContext context;
+  protected TurnStateMachine machine;
 
-  public TurnState(TurnStateContext context) {
+  public TurnState(TurnStateContext context, TurnStateMachine machine) {
     this.context = context;
+    this.machine = machine;
   }
 
   public void handleEvent(TurnGenerateYutEvent event) {

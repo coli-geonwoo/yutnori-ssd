@@ -7,7 +7,7 @@ public class TurnStateMachine {
 
   public TurnStateMachine() {
     this.context = new TurnStateContext();
-    this.currentState = new TurnIdleState(context);
+    this.currentState = new TurnIdleState(context, this);
   }
 
   public TurnState getCurrentState() {
