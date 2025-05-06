@@ -35,7 +35,7 @@ public class SquareBoardCreator extends AbstractBoardCreator {
         CornerNode s5 = new CornerNode(List.of("S5"), "S5");
         EndNode endNode = new EndNode("end");
 
-        SquareCentralNode s4 = new SquareCentralNode(List.of("S4"), "S4", new ArrayList<>(), new ArrayList<>());
+        SquareCentralNode s4 = new SquareCentralNode(List.of("S4"), "S4", new ArrayList<>());
 
         NormalNode a1 = new NormalNode("A1");
         NormalNode a2 = new NormalNode("A2");
@@ -88,7 +88,7 @@ public class SquareBoardCreator extends AbstractBoardCreator {
                 e1, e2, e3, e4,
                 f1, f2, f3, f4,
                 s0, s1, s2, s3,
-                s4, s5
+                s4, s5, endNode
         );
         return createBoard(nodes);
     }
@@ -103,15 +103,10 @@ public class SquareBoardCreator extends AbstractBoardCreator {
             CornerNode end
     ) {
         start.setStandNext(node1);
-        node1.setBefore(start);
         node1.setNext(node2);
-        node2.setBefore(start);
         node2.setNext(central);
-        central.addBefore(node2);
         central.addNext(node3);
-        node3.setBefore(central);
         node3.setNext(node4);
-        node4.setBefore(node3);
         node4.setNext(end);
     }
 }

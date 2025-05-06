@@ -47,7 +47,7 @@ public class PentagonBoardCreator extends AbstractBoardCreator {
         CornerNode s5 = new CornerNode(List.of(), "S5");
         EndNode endNode = new EndNode("end");
 
-        PolygonCentralNode s6 = new PolygonCentralNode(List.of(), "S6", new ArrayList<>());
+        PolygonCentralNode s6 = new PolygonCentralNode(List.of(), "S6");
 
         NormalNode a1 = new NormalNode("A1");
         NormalNode a2 = new NormalNode("A2");
@@ -120,7 +120,8 @@ public class PentagonBoardCreator extends AbstractBoardCreator {
                 h1, h2, i1, i2,
                 j1, j2,
                 s0, s1, s2, s3,
-                s4, s5, s6
+                s4, s5, s6,
+                endNode
         );
 
         return createBoard(nodes);
@@ -133,11 +134,8 @@ public class PentagonBoardCreator extends AbstractBoardCreator {
             PolygonCentralNode central
     ) {
         start.setStandNext(node1);
-        node1.setBefore(start);
         node1.setNext(node2);
-        node2.setBefore(start);
         node2.setNext(central);
-        central.addBefore(node2);
     }
 
     private void linkCentralToCorner(
@@ -146,10 +144,7 @@ public class PentagonBoardCreator extends AbstractBoardCreator {
             NormalNode node2,
             CornerNode corner
     ) {
-        node1.setBefore(central);
         node1.setNext(node2);
-        node2.setBefore(node1);
         node2.setNext(corner);
-        corner.setBefore(node2);
     }
 }

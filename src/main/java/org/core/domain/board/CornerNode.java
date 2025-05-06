@@ -8,7 +8,6 @@ public class CornerNode implements Node {
 
     private final List<String> allNodeNames;
     private final String name;
-    private Node before;
     private Node forwardNext;
     private Node standNext;
 
@@ -26,11 +25,6 @@ public class CornerNode implements Node {
     }
 
     @Override
-    public List<Node> before() {
-        return List.of(before);
-    }
-
-    @Override
     public List<String> getAllNodeNames() {
         return allNodeNames;
     }
@@ -38,10 +32,6 @@ public class CornerNode implements Node {
     @Override
     public String getName() {
         return name;
-    }
-
-    public void setBefore(Node before) {
-        this.before = before;
     }
 
     public void setForwardNext(Node forwardNext) {
