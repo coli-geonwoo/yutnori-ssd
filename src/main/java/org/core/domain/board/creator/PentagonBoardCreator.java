@@ -96,6 +96,7 @@ public class PentagonBoardCreator extends AbstractBoardCreator {
         linkOneSide(s3, d1, d2, d3, d4, s4);
         linkOneSide(s4, e1, e2, e3, e4, s5);
 
+        s4.setStandNext(e1); //s4에 위치하면 직진이 더 거리가 짧기 때문에
         s6.setShortestPathNode(j1);
         s6.setSecondShortestPathNode(i1);
 

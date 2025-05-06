@@ -21,9 +21,6 @@ public class CornerNode implements Node {
     public List<Node> next(Node start) {
         if(start.isSame(this)) {
             List<Node> movableNodes = new ArrayList<>();
-            if(forwardNext != null) {
-                movableNodes.add(forwardNext);
-            }
             if(standNext != null) {
                 movableNodes.add(standNext);
             }

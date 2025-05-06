@@ -104,6 +104,7 @@ public class HexagonBoardCreator extends AbstractBoardCreator {
         linkOneSide(s4, e1, e2, e3, e4, s5);
         linkOneSide(s5, f1, f2, f3, f4, s7);
 
+        s5.setStandNext(f1); //s5인 경우에 위치해도 직진 거리가 더 짧기 때문에
         s6.setShortestPathNode(i3);
         s6.setSecondShortestPathNode(h3);
 
