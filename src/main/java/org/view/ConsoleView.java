@@ -81,20 +81,18 @@ public class ConsoleView {
         System.out.println("윷을 또 던질 수 있어요");
         generateYut();
       } else if (state instanceof TurnWaitForActionState) {
+        BoardService boardService = gameStateMachine.context.boardService;
+
         // 윷 결과 선택
         YutResult yutResult = chooseYutResult();
 
         // 움직일 말 선택
         GamePieces movingPiece = readMovingPiece();
 
-        BoardService boardService = gameStateMachine.context.boardService;
-        List<String> movablePlaces = boardService.findMovablePlaces(movingPiece.getPlace(),
-            yutResult);
-
+        List<String> movablePlaces = boardService.findMovablePlaces(movingPiece.getPlace(), yutResult);
         String movingPlace = chooseMovingPlace(movablePlaces);
 
-        turnStateMachine.dispatchEvent(
-            new TurnMovePieceEvent(movingPiece.getId(), movingPlace, yutResult));
+        turnStateMachine.dispatchEvent(new TurnMovePieceEvent(movingPiece.getId(), movingPlace, yutResult));
       } else if (state instanceof TurnKilledOtherState) {
         printCatchMessage();
       } else if (state instanceof TurnTookPieceState) {
