@@ -76,8 +76,9 @@ public class SquareBoardCreator extends AbstractBoardCreator {
         linkCentral(s2, f1, f2, s4, f3, f4, s5);
         linkEnd(s0, s5, endNode);
 
-        //S3의 경우는 코너에 위치해도 무조건 직진
-        s3.setStandNext(d1);
+
+        s3.setStandNext(d1); //S3의 경우는 코너에 위치해도 무조건 직진
+        s0.setStandNext(a1); //s0의 경우는 무조건 a1으로 진행
 
         List<Node> nodes = List.of(
                 a1, a2, a3, a4,

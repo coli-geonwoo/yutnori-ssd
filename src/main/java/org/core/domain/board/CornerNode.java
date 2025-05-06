@@ -24,6 +24,11 @@ public class CornerNode implements Node {
             if(standNext != null) {
                 movableNodes.add(standNext);
             }
+            System.out.println("movalble이 없음: " + movableNodes);
+            System.out.println("name = " + name);
+            System.out.println(start.getName());
+            System.out.println("standNext = " + standNext);
+            System.out.println(forwardNext.getName());
             return movableNodes;
         }
         return List.of(forwardNext);
