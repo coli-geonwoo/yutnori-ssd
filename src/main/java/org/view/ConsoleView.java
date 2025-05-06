@@ -43,7 +43,7 @@ public class ConsoleView {
     System.out.println("몇 명의 팀으로 진행할까요? (최소 2개, 최대 4개 팀) : ");
     int teamCount = Integer.parseInt(readInput());
 
-    System.out.println("몇 개의 말로 진행할까요? (최소 1개, 최대 5개 팀) : ");
+    System.out.println("몇 개의 말로 진행할까요? (최소 2개, 최대 5개 말) : ");
     int pieceCount = Integer.parseInt(readInput());
 
     System.out.println("어떤 보드로 진행할까요? (4,5,6 중 선택) : ");
