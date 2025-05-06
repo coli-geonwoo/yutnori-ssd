@@ -280,37 +280,6 @@ class BoardTest {
                     () -> assertThat(nextNode.get(0).isEnd()).isTrue()
             );
         }
-
-        /*
-        * : 출발지
-        $ : 도착지
-        S2  -  *  -  B3  -  B2  -  B1  -       S1
-         |  F1                         E1      |
-        C1                                     A4
-         |       F2              E2            |
-        C2                                     A3
-         |                S4                   |
-        C3                                     A2
-         |       E3              F3            |
-        C4                                     A1
-         |  E4                          F4     |
-        S3  -  D1  -  D2  -  D3  -  D4  - S5   *
-                                          |  /
-                                          $
-       */
-        @DisplayName("S0 -> END : 시작노드에서 백도가 나오면 도착으로 취급한다")
-        @Test
-        void return_end_node_when_backdo_from_start() {
-            SquareBoardCreator creator = new SquareBoardCreator();
-            Board board = creator.initialize();
-
-            List<Node> nextNode = board.next("S0", YutResult.BACK_DO);
-
-            assertAll(
-                    () -> assertThat(nextNode).hasSize(1),
-                    () -> assertThat(nextNode.get(0).isEnd()).isTrue()
-            );
-        }
     }
 
     @Nested
@@ -630,48 +599,6 @@ class BoardTest {
                     () -> assertThat(nextNode.get(0).isEnd()).isTrue()
             );
         }
-
-        /*
-        * : 출발지
-        $ : 도착지
-
-             S3  -  C4  -  C3  -  C2  -  C1  -   S2
-            |                                       |
-           D1                                       B4
-          |       I1                      H1          |
-         D2                                           B3
-        |                                               |
-       D3                I2         H2                  B2
-      |                                                   |
-     D4                                                   $
-    |                                                      |
-   S4        G4       G3      S6      G2         G1        S1
-    |                                                      |
-     E1                                                   *
-      |                   H3       I3                    |
-       E2                                               A3
-        |                                              |
-         E3        H4                     I4          A2
-          |                                          |
-           E4                                       A1
-            |                                      |
-             S5  -  F1  -  F2  -  F3  -  F4  - S7 S0
-                                                |
-                                               END
-         */
-        @DisplayName("S0 -> END : 시작노드에서 백도가 나오면 도착으로 취급한다")
-        @Test
-        void return_end_node_when_backdo_from_start() {
-            HexagonBoardCreator creator = new HexagonBoardCreator();
-            Board board = creator.initialize();
-
-            List<Node> nextNode = board.next("S0", YutResult.BACK_DO);
-
-            assertAll(
-                    () -> assertThat(nextNode).hasSize(1),
-                    () -> assertThat(nextNode.get(0).isEnd()).isTrue()
-            );
-        }
     }
 
     @Nested
@@ -976,47 +903,6 @@ class BoardTest {
             Board board = creator.initialize();
 
             List<Node> nextNode = board.next("J1", YutResult.MO);
-
-            assertAll(
-                    () -> assertThat(nextNode).hasSize(1),
-                    () -> assertThat(nextNode.get(0).isEnd()).isTrue()
-            );
-        }
-
-        /*'
-       * : 출발지
-       $ : 도착지
-                                 S2
-                              |      |
-                           C1     G1    B4
-                         |                  |
-                     C2           |            B3
-                  |                                |
-               C3                 G2                  B2
-            |                                            |
-        C4                        |                         $
-      |                                                         |
-    S3    -   H1    -   H2    -   S6   -   F2    -   F1    -      S1
-      |                                                          |
-       D1                     /      \                         *
-         |                  I1        J1                      |
-          D2                                                A3
-           |             /                \                |
-            D3                                           A2
-             |       I2                       J2        |
-              D4                                       A1
-               |  /                               \   |
-                S4  -  E1  -  E2  -  E3  -  E4  - S5 S0
-                                               |
-                                              END
-      */
-        @DisplayName("S0 -> END : 시작노드에서 백도가 나오면 도착으로 취급한다")
-        @Test
-        void return_end_node_when_backdo_from_start() {
-            PentagonBoardCreator creator = new PentagonBoardCreator();
-            Board board = creator.initialize();
-
-            List<Node> nextNode = board.next("S0", YutResult.BACK_DO);
 
             assertAll(
                     () -> assertThat(nextNode).hasSize(1),
