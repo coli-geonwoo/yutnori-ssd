@@ -1,0 +1,11 @@
+package org.core.dto;
+
+import org.core.domain.board.BoardType;
+
+public record GameInitializeDto(
+        int teamCount,
+        int pieceCount,
+        BoardType boardType
+) {
+
+}
