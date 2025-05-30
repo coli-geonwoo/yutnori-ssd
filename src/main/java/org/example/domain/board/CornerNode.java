@@ -1,5 +1,6 @@
 package org.example.domain.board;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +20,14 @@ public class CornerNode implements Node {
     @Override
     public List<Node> next(Node start) {
         if(start.isSame(this)) {
-            return List.of(forwardNext, standNext);
+            List<Node> movableNodes = new ArrayList<>();
+            if(forwardNext != null) {
+                movableNodes.add(forwardNext);
+            }
+            if(standNext != null) {
+                movableNodes.add(standNext);
+            }
+            return movableNodes;
         }
         return List.of(forwardNext);
     }
